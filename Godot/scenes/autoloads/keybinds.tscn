@@ -1,0 +1,71 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/autoloads/keybinds.gd" type="Script" id=1]
+[ext_resource path="res://resources/main_theme.tres" type="Theme" id=2]
+
+[node name="Keybinds" type="CanvasLayer"]
+pause_mode = 2
+layer = 2
+script = ExtResource( 1 )
+ui_actions_order = PoolStringArray( "ui_accept", "ui_select", "ui_cancel", "ui_focus_next", "ui_focus_prev", "ui_left", "ui_right", "ui_up", "ui_down", "ui_page_up", "ui_page_down", "ui_home", "ui_end" )
+actions_order = PoolStringArray( "move_left", "move_right", "move_up", "move_down", "jump" )
+
+[node name="PopupPanel" type="PopupPanel" parent="."]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -256.0
+margin_top = -150.0
+margin_right = 256.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 512, 300 )
+theme = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PopupPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = -4.0
+margin_bottom = -4.0
+scroll_horizontal_enabled = false
+
+[node name="Actions" type="VBoxContainer" parent="PopupPanel/ScrollContainer"]
+margin_right = 504.0
+margin_bottom = 292.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Wait" type="PopupPanel" parent="."]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -128.0
+margin_top = -75.0
+margin_right = 128.0
+margin_bottom = 75.0
+rect_min_size = Vector2( 256, 150 )
+theme = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="Wait"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = -4.0
+margin_bottom = -4.0
+text = "Waiting for input..."
+align = 1
+valign = 1
+
+[connection signal="popup_hide" from="Wait" to="." method="_on_Wait_popup_hide"]

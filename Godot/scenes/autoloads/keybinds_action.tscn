@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/autoloads/keybinds_action.gd" type="Script" id=1]
+
+[node name="KeybindsAction" type="VBoxContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 42.0
+margin_bottom = 20.0
+
+[node name="Action" type="Label" parent="HBoxContainer"]
+margin_top = 3.0
+margin_right = 1.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Name of Action"
+clip_text = true
+
+[node name="Add" type="Button" parent="HBoxContainer"]
+margin_left = 5.0
+margin_right = 42.0
+margin_bottom = 20.0
+text = "Add"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_top = 24.0
+margin_right = 42.0
+margin_bottom = 24.0
+custom_constants/margin_left = 20
+
+[node name="Keys" type="VBoxContainer" parent="MarginContainer"]
+margin_left = 20.0
+margin_right = 42.0
+
+[connection signal="pressed" from="HBoxContainer/Add" to="." method="_on_Add_pressed"]

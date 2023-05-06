@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/main/message.gd" type="Script" id=1]
+
+[node name="Message" type="AcceptDialog"]
+pause_mode = 2
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -128.0
+margin_top = -75.0
+margin_right = 128.0
+margin_bottom = 75.0
+rect_min_size = Vector2( 256, 150 )
+popup_exclusive = true
+dialog_text = "Message"
+dialog_autowrap = true
+script = ExtResource( 1 )
+
+[connection signal="popup_hide" from="." to="." method="_on_Message_popup_hide"]
