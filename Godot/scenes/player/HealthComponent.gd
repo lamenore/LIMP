@@ -16,3 +16,6 @@ func _ready():
 func take_damage(attack: Attack):
 	health -= attack.attack_damage
 	
+
+func _on_HurtboxComponent_area_entered(hitbox: Hitbox):
+	take_damage(hitbox.damage)

@@ -1,9 +1,9 @@
 extends Area2D
-class_name HurtboxComponent
+class_name Hitbox
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+export var damage = 1
+var lifetime = 2
+
 
 
 # Called when the node enters the scene tree for the first time.
@@ -14,3 +14,4 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
