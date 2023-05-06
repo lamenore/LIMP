@@ -45,6 +45,10 @@ version_control_plugin_name="GitAPI"
 
 enabled=PoolStringArray( "res://addons/AsepriteWizard/plugin.cfg" )
 
+[global]
+
+opengl=false
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
