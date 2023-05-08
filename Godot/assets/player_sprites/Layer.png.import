@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Tilemap2.png-9b31a46771efeffec18c020607f16bb9.stex"
+path="res://.import/Layer.png-eec4b5f239fada4e92474d499218f8c6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://placeholder/Tilemap2.png"
-dest_files=[ "res://.import/Tilemap2.png-9b31a46771efeffec18c020607f16bb9.stex" ]
+source_file="res://assets/player_sprites/Layer.png"
+dest_files=[ "res://.import/Layer.png-eec4b5f239fada4e92474d499218f8c6.stex" ]
 
 [params]
 
@@ -29,7 +29,7 @@ process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
 process/normal_map_invert_y=false
-stream=0
+stream=false
 size_limit=0
 detect_3d=true
 svg/scale=1.0

@@ -13,8 +13,8 @@ func _ready():
 #func _process(delta):
 #	pass
 
-func take_damage(attack: Attack):
-	health -= attack.attack_damage
+func take_damage(_damage: int):
+	health -= _damage
 	
 
 func _on_HurtboxComponent_area_entered(hitbox: Hitbox):
