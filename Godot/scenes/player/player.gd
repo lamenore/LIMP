@@ -168,8 +168,7 @@ func state_update():
 			set_state(PS.IDLE)
 	
 	if state == PS.ATTACK:
-		if state_timer >= 20:
-			set_state(PS.IDLE)
+		can_attack = false
 		
 	if state == PS.IDLE:
 		can_attack = true
@@ -246,14 +245,10 @@ func window_speed():
 func window_create_hitbox():
 	var h_n := get_num_hitboxes(attack)
 	if(h_n != 0):
-		print("READ RIGHT")
 		for i in range(h_n):
 			var h_win := get_hitbox_value(attack, i+1, HG.WINDOW)
-			print("READING WINDOW: %s" % h_win)
-			print("IT IS WINDOW: %s" % window)
 			if(h_win == window):
 				var h_win_t := get_hitbox_value(attack, i+1, HG.WINDOW_CREATION_FRAME)
-				print("ON TIME: %s" % h_win_t)
 				if(h_win_t == window_timer):
 					create_hitbox(attack, i+1, position.x, position.y)
 
@@ -264,7 +259,7 @@ func create_hitbox(_attack, hbox_num, _x, _y):
 	var new_hitbox = pHitBox.instance()
 	new_hitbox.attack = attack
 	new_hitbox.hbox_num = hbox_num
-	new_hitbox.position = Vector2(get_hitbox_value(attack, hbox_num, HG.HITBOX_FORW), get_hitbox_value(attack, hbox_num, HG.HITBOX_SIDE))
+	new_hitbox.parent_id = self	
 	new_hitbox.declare()
 	hitbox_parent.add_child(new_hitbox)
 	pass
@@ -317,6 +312,9 @@ func animation():
 		PS.FURY:
 			sprite.animation = "D_Idle"
 			sprite.frame = int(float(state_timer)*idle_anim_speed) % 4
-		PS.FURY:
+		PS.ATTACK:
+			var frames = get_window_value(attack, window, AG.WINDOW_ANIM_FRAMES)
+			var frame_start = get_window_value(attack, window, AG.WINDOW_ANIM_FRAME_START)
+			var win_length = get_window_value(attack, window, AG.WINDOW_LENGTH)
 			sprite.animation = dir_string + "_Swing"
-			sprite.frame = int(float(state_timer)*idle_anim_speed) % 4
+			sprite.frame = int(frame_start + window_timer*frames/win_length)

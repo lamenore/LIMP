@@ -12,7 +12,10 @@ var hbox_num:int
 
 var damage:int
 var lifetime:int
+var hitbox_timer := 0
 var knockback:int
+
+var parent_id:KinematicBody2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -22,10 +25,20 @@ func _ready():
 func declare():
 	damage = get_hitbox_value(attack, hbox_num, HG.DAMAGE)
 	lifetime = get_hitbox_value(attack, hbox_num, HG.LIFETIME)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+	var hbox_pos = Vector2(get_hitbox_value(attack, hbox_num, HG.HITBOX_FORW),
+							get_hitbox_value(attack, hbox_num, HG.HITBOX_SIDE))
+	position = hbox_pos.rotated(hbox_pos.angle_to(parent_id.dir_facing))
+	scale = Vector2(get_hitbox_value(attack, hbox_num, HG.WIDTH),
+						get_hitbox_value(attack, hbox_num, HG.HEIGHT))
+	rotation = parent_id.dir_facing.angle()
+	print(parent_id)
+	print(typeof(parent_id))
+	
+# Called every frame.
+func _physics_process(delta):
+	if(hitbox_timer >= lifetime):
+		queue_free()
+	hitbox_timer += 1
 
 func set_attack_value(_attack: int, index: int, value: float):
 	attack_data.set_attack_value(_attack, index, value)

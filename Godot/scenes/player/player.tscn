@@ -1,19 +1,16 @@
 [gd_scene load_steps=63 format=2]
 
 [ext_resource path="res://scenes/player/player.gd" type="Script" id=1]
+[ext_resource path="res://scenes/player/HitboxParent.gd" type="Script" id=2]
 [ext_resource path="res://scenes/player/HealthComponent.gd" type="Script" id=3]
 [ext_resource path="res://scenes/player/HurtboxComponent.gd" type="Script" id=4]
 
 [sub_resource type="CapsuleShape2D" id=37]
-radius = 3.0
-height = 10.0
+radius = 4.0
+height = 8.0
 
 [sub_resource type="RectangleShape2D" id=38]
 extents = Vector2( 6, 8.5 )
-
-[sub_resource type="Animation" id=2]
-resource_name = "attack"
-step = 0.0166667
 
 [sub_resource type="StreamTexture" id=39]
 load_path = "res://.import/Layer.png-eec4b5f239fada4e92474d499218f8c6.stex"
@@ -337,9 +334,7 @@ position = Vector2( 0, 1.5 )
 shape = SubResource( 38 )
 
 [node name="HitboxParent" type="Node2D" parent="."]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/attack = SubResource( 2 )
+script = ExtResource( 2 )
 
 [node name="JackSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 94 )
