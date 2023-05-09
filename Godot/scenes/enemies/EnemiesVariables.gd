@@ -92,6 +92,7 @@ class SapSlimeAttackData:
 		set_hitbox_value(AT.LUNGE, 1, HG.WIDTH, 12);
 		set_hitbox_value(AT.LUNGE, 1, HG.HEIGHT, 12);
 		set_hitbox_value(AT.LUNGE, 1, HG.DAMAGE, 7);
+		set_hitbox_value(AT.LUNGE, 1, HG.HITSTUN, 14);
 
 func _init():
 	sap_slime_attack_data = SapSlimeAttackData.new()

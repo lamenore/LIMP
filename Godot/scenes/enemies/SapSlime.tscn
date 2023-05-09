@@ -1,13 +1,14 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://scenes/player/HurtboxComponent.gd" type="Script" id=1]
 [ext_resource path="res://scenes/player/HealthComponent.gd" type="Script" id=2]
 [ext_resource path="res://scenes/player/HitboxParent.gd" type="Script" id=3]
 [ext_resource path="res://scenes/enemies/SapSlime.gd" type="Script" id=4]
+[ext_resource path="res://assets/sounds/enemies/slime/slime_lunge1.ogg" type="AudioStream" id=5]
 
-[sub_resource type="CapsuleShape2D" id=1]
-radius = 4.0
-height = 8.0
+[sub_resource type="CapsuleShape2D" id=16]
+radius = 4.95398
+height = 8.09204
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 9, 6 )
@@ -75,12 +76,13 @@ animations = [ {
 [node name="SapSlime" type="KinematicBody2D" groups=["enemy"]]
 position = Vector2( 0, -4.954 )
 collision_layer = 4
+collision_mask = 5
 script = ExtResource( 4 )
 
 [node name="Collision" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 10 )
+position = Vector2( 0, 8.954 )
 rotation = 1.5708
-shape = SubResource( 1 )
+shape = SubResource( 16 )
 
 [node name="HealthComponent" type="Node2D" parent="."]
 script = ExtResource( 2 )
@@ -100,6 +102,7 @@ shape = SubResource( 2 )
 script = ExtResource( 3 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0, -0.046 )
 frames = SubResource( 15 )
 animation = "all_walk"
 __meta__ = {
@@ -113,6 +116,11 @@ __meta__ = {
 "source": "res://aseprite/enemies/sap_slime.aseprite"
 }
 }
+
+[node name="LungePlayer" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( 0, -0.046 )
+stream = ExtResource( 5 )
+volume_db = -4.37
 
 [connection signal="zero_health" from="HealthComponent" to="." method="_on_HealthComponent_zero_health"]
 [connection signal="area_entered" from="HurtboxComponent" to="." method="_on_HurtboxComponent_area_entered"]

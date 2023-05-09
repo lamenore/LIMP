@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/slime_lunge3.ogg-2eaa62fd8fba5ef7e654a88a80914e18.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/enemies/slime/slime_lunge3.ogg"
+dest_files=[ "res://.import/slime_lunge3.ogg-2eaa62fd8fba5ef7e654a88a80914e18.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

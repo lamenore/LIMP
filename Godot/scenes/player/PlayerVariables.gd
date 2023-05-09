@@ -54,7 +54,7 @@ class AttackData:
 		hitbox_amount.fill(0)
 		load_proj_attack()
 		load_swing_attack()
-		
+		load_charge_attack()
 	
 	func load_swing_attack():
 		set_attack_value(AT.SWING, AG.NUM_WINDOWS, 3);
@@ -93,6 +93,7 @@ class AttackData:
 		set_hitbox_value(AT.SWING, 1, HG.WIDTH, 18);
 		set_hitbox_value(AT.SWING, 1, HG.HEIGHT, 18);
 		set_hitbox_value(AT.SWING, 1, HG.DAMAGE, 7);
+		set_hitbox_value(AT.SWING, 1, HG.ANGLE, 0);
 		set_hitbox_value(AT.SWING, 1, HG.KNOCKBACK, 400.0);
 		set_hitbox_value(AT.SWING, 1, HG.HITSTUN, 25);
 		
@@ -115,7 +116,96 @@ class AttackData:
 		set_window_value(AT.PROJ, 3, AG.WINDOW_LENGTH, 13);
 		set_window_value(AT.PROJ, 3, AG.WINDOW_ANIM_FRAMES, 4);
 		set_window_value(AT.PROJ, 3, AG.WINDOW_ANIM_FRAME_START, 4);
+	
+	func load_charge_attack():
+		set_attack_value(AT.CHARGE, AG.NUM_WINDOWS, 3);
+		
+		set_window_value(AT.CHARGE, 1, AG.WINDOW_TYPE, 1);
+		set_window_value(AT.CHARGE, 1, AG.WINDOW_HAS_CUSTOM_FRICTION, 1);
+		set_window_value(AT.CHARGE, 1, AG.WINDOW_CUSTOM_FRICTION, .85);
+		set_window_value(AT.CHARGE, 1, AG.WINDOW_LENGTH, 8);
+		set_window_value(AT.CHARGE, 1, AG.WINDOW_ANIM_FRAMES, 3);
+		set_window_value(AT.CHARGE, 1, AG.WINDOW_HAS_SFX, 1);
+		set_window_value(AT.CHARGE, 1, AG.WINDOW_SFX, 0);
+		set_window_value(AT.CHARGE, 1, AG.WINDOW_SFX_FRAME, 2);
 
+		set_window_value(AT.CHARGE, 2, AG.WINDOW_TYPE, 1);
+		set_window_value(AT.CHARGE, 2, AG.WINDOW_HAS_CUSTOM_FRICTION, 1);
+		set_window_value(AT.CHARGE, 2, AG.WINDOW_CUSTOM_FRICTION, .1);
+		set_window_value(AT.CHARGE, 2, AG.WINDOW_LENGTH, 15);
+		set_window_value(AT.CHARGE, 2, AG.WINDOW_SPEED_TYPE, 0);
+		set_window_value(AT.CHARGE, 2, AG.WINDOW_SPEED, 200.0);
+		set_window_value(AT.CHARGE, 2, AG.WINDOW_ANIM_FRAMES, 5);
+		set_window_value(AT.CHARGE, 2, AG.WINDOW_ANIM_FRAME_START, 3);
+
+		set_window_value(AT.CHARGE, 3, AG.WINDOW_TYPE, 1);
+		set_window_value(AT.CHARGE, 3, AG.WINDOW_HAS_CUSTOM_FRICTION, 1);
+		set_window_value(AT.CHARGE, 3, AG.WINDOW_CUSTOM_FRICTION, 1);
+		set_window_value(AT.CHARGE, 3, AG.WINDOW_LENGTH, 15);
+		set_window_value(AT.CHARGE, 3, AG.WINDOW_ANIM_FRAMES, 4);
+		set_window_value(AT.CHARGE, 3, AG.WINDOW_ANIM_FRAME_START, 8);
+		
+		set_num_hitboxes(AT.CHARGE, 5)
+		
+		set_hitbox_value(AT.CHARGE, 1, HG.WINDOW, 2);
+		set_hitbox_value(AT.CHARGE, 1, HG.LIFETIME, 3);
+		set_hitbox_value(AT.CHARGE, 1, HG.HITBOX_FORW, 14);
+		set_hitbox_value(AT.CHARGE, 1, HG.HITBOX_SIDE, 0);
+		set_hitbox_value(AT.CHARGE, 1, HG.WIDTH, 18);
+		set_hitbox_value(AT.CHARGE, 1, HG.HEIGHT, 18);
+		set_hitbox_value(AT.CHARGE, 1, HG.DAMAGE, 7);
+		set_hitbox_value(AT.CHARGE, 1, HG.ANGLE, 0);
+		set_hitbox_value(AT.CHARGE, 1, HG.KNOCKBACK, 400.0);
+		set_hitbox_value(AT.CHARGE, 1, HG.HITSTUN, 25);
+		
+		set_hitbox_value(AT.CHARGE, 2, HG.WINDOW, 2);
+		set_hitbox_value(AT.CHARGE, 2, HG.WINDOW_CREATION_FRAME, 3);
+		set_hitbox_value(AT.CHARGE, 2, HG.LIFETIME, 3);
+		set_hitbox_value(AT.CHARGE, 2, HG.HITBOX_FORW, 0);
+		set_hitbox_value(AT.CHARGE, 2, HG.HITBOX_SIDE, -14);
+		set_hitbox_value(AT.CHARGE, 2, HG.WIDTH, 18);
+		set_hitbox_value(AT.CHARGE, 2, HG.HEIGHT, 18);
+		set_hitbox_value(AT.CHARGE, 2, HG.DAMAGE, 7);
+		set_hitbox_value(AT.CHARGE, 2, HG.ANGLE, -90);
+		set_hitbox_value(AT.CHARGE, 2, HG.KNOCKBACK, 400.0);
+		set_hitbox_value(AT.CHARGE, 2, HG.HITSTUN, 25);
+		
+		set_hitbox_value(AT.CHARGE, 3, HG.WINDOW, 2);
+		set_hitbox_value(AT.CHARGE, 3, HG.WINDOW_CREATION_FRAME, 6);
+		set_hitbox_value(AT.CHARGE, 3, HG.LIFETIME, 3);
+		set_hitbox_value(AT.CHARGE, 3, HG.HITBOX_FORW, -14);
+		set_hitbox_value(AT.CHARGE, 3, HG.HITBOX_SIDE, 0);
+		set_hitbox_value(AT.CHARGE, 3, HG.WIDTH, 18);
+		set_hitbox_value(AT.CHARGE, 3, HG.HEIGHT, 18);
+		set_hitbox_value(AT.CHARGE, 3, HG.DAMAGE, 7);
+		set_hitbox_value(AT.CHARGE, 3, HG.ANGLE, 180);
+		set_hitbox_value(AT.CHARGE, 3, HG.KNOCKBACK, 400.0);
+		set_hitbox_value(AT.CHARGE, 3, HG.HITSTUN, 25);
+		
+		set_hitbox_value(AT.CHARGE, 4, HG.WINDOW, 2);
+		set_hitbox_value(AT.CHARGE, 4, HG.WINDOW_CREATION_FRAME, 9);
+		set_hitbox_value(AT.CHARGE, 4, HG.LIFETIME, 3);
+		set_hitbox_value(AT.CHARGE, 4, HG.HITBOX_FORW, 0);
+		set_hitbox_value(AT.CHARGE, 4, HG.HITBOX_SIDE, 14);
+		set_hitbox_value(AT.CHARGE, 4, HG.WIDTH, 18);
+		set_hitbox_value(AT.CHARGE, 4, HG.HEIGHT, 18);
+		set_hitbox_value(AT.CHARGE, 4, HG.DAMAGE, 7);
+		set_hitbox_value(AT.CHARGE, 4, HG.ANGLE, 90);
+		set_hitbox_value(AT.CHARGE, 4, HG.KNOCKBACK, 400.0);
+		set_hitbox_value(AT.CHARGE, 4, HG.HITSTUN, 25);
+		
+		set_hitbox_value(AT.CHARGE, 5, HG.WINDOW, 2);
+		set_hitbox_value(AT.CHARGE, 5, HG.WINDOW_CREATION_FRAME, 12);
+		set_hitbox_value(AT.CHARGE, 5, HG.LIFETIME, 3);
+		set_hitbox_value(AT.CHARGE, 5, HG.HITBOX_FORW, 14);
+		set_hitbox_value(AT.CHARGE, 5, HG.HITBOX_SIDE, 0);
+		set_hitbox_value(AT.CHARGE, 5, HG.WIDTH, 18);
+		set_hitbox_value(AT.CHARGE, 5, HG.HEIGHT, 18);
+		set_hitbox_value(AT.CHARGE, 5, HG.DAMAGE, 7);
+		set_hitbox_value(AT.CHARGE, 5, HG.ANGLE, 0);
+		set_hitbox_value(AT.CHARGE, 5, HG.KNOCKBACK, 400.0);
+		set_hitbox_value(AT.CHARGE, 5, HG.HITSTUN, 25);
+	
 func _init():
 	attack_data = AttackData.new()
 	

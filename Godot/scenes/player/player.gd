@@ -17,6 +17,7 @@ var state:int = PS.IDLE
 var state_timer:int = 0
 var hittable_hitpause_mult:float = 1
 
+var can_move := true
 export var speed := 200.0
 export var can_accelerate := true
 export var acceleration := 35.0
@@ -32,6 +33,7 @@ var dir_facing := Vector2.DOWN
 
 var hitstop:int = 0
 var hitstop_full:int = 0
+var hitstun_time:int = 0
 
 var has_dodge:bool = true
 var dodge_pressed:bool = false
@@ -43,15 +45,23 @@ var can_attack:bool = true
 var attack_pressed:bool = false
 var attack_counter = 0
 var attack_down:bool = false
+var charge_time:int = 30
+var charge_counter:int = 0
 
 var can_special:bool = true
 var special_pressed:bool = false
 var special_counter = 0
 var special_down:bool = false
 
+onready var camera = $PlayerCamera
 onready var sprite = $JackSprite
 onready var hitbox_parent = $HitboxParent
 onready var slash_sound:AudioStreamPlayer2D = $SlashSound
+onready var hit_sound:AudioStreamPlayer2D = $HitSound
+onready var step_sound:AudioStreamPlayer2D = $StepSound
+onready var step_sounds_ogg:Array = [preload("res://assets/sounds/enemies/slime/slime_lunge1.ogg"), 
+									preload("res://assets/sounds/enemies/slime/slime_lunge2.ogg"), 
+									preload("res://assets/sounds/enemies/slime/slime_lunge3.ogg")]
 onready var slash_hitfx:PackedScene = preload("res://scenes/building blocks/SlashHitFX.tscn")
 
 var idle_anim_speed := .1
@@ -151,6 +161,7 @@ func set_attack(new_attack: int):
 	attack = new_attack
 	window = 1
 	window_timer = 0
+	charge_counter = 0
 	
 	window_speed()
 	
@@ -167,9 +178,11 @@ func state_update():
 	
 	if state == PS.ATTACK:
 		can_attack = false
+		can_move = false
 		
 	if state == PS.IDLE:
 		can_attack = true
+		can_move = false
 		if(dir_input != Vector2.ZERO):
 			set_state(PS.RUN)
 		if(dodge_pressed and has_dodge):
@@ -178,13 +191,25 @@ func state_update():
 		
 	if state == PS.RUN:
 		can_attack = true
+		if(state_timer % 16 == 6):
+			step_sound.stream = step_sounds_ogg[randi() % 3]
+			step_sound.play()
 		if(dodge_pressed and has_dodge):
 			set_state(PS.DODGE)
 		if(dir_input == Vector2.ZERO):
 			set_state(PS.IDLE)
 		turn_around()
+		can_move = true
+	
+	if state == PS.HIT:
+		can_attack = false
+		if(state_timer >= hitstun_time):
+			set_state(PS.IDLE)
+		can_move = false
+	
+	if(can_move):
 		move()
-		
+	
 	if(can_attack):
 		if(attack_pressed):
 			attack_counter = 0
@@ -203,11 +228,19 @@ func attack_update():
 		window_timer += 1
 		
 	match attack:
-		AT.PROJ:
-			pass
+		AT.CHARGE:
+			if(window == 1 and window_timer == get_window_value(attack, window, AG.WINDOW_LENGTH)):
+				slash_sound.play()
 		AT.SWING:
+			if attack_down:
+				if(charge_counter < charge_time):
+					charge_counter += 1
+				else:
+					set_attack(AT.CHARGE)
 			if state_timer <= 12:
 				turn_around()
+			if(window == 1 and window_timer == get_window_value(attack, window, AG.WINDOW_LENGTH)):
+				slash_sound.play()
 		_:
 			pass
 	
@@ -267,15 +300,18 @@ func create_hitbox(_attack, hbox_num, _x, _y):
 	pass
 
 func enemy_hit(enemy_id:KinematicBody2D):
-	slash_sound.play()
+	hit_sound.play()
 	var hfx := slash_hitfx.instance()
 	enemy_id.add_child(hfx)
+	camera.camera_shake(1, 5, 0.08)
 
 func frameFreeze(timeScale, duration):
 	Engine.time_scale = timeScale
-	hitstop = true
+	#hitstop = true
+	Engine.iterations_per_second = 60*timeScale
 	yield(get_tree().create_timer(duration * timeScale), "timeout")
-	hitstop = false
+	Engine.iterations_per_second = 60
+	#hitstop = false
 	Engine.time_scale = 1.0
 
 #Attack grid
@@ -322,8 +358,8 @@ func animation():
 			sprite.animation = dir_string + "_Run"
 			sprite.frame = int(float(state_timer)*run_anim_speed) % 4
 		PS.DODGE:
-			sprite.animation = "D_Idle"
-			sprite.frame = int(float(state_timer)*idle_anim_speed) % 4
+			sprite.animation = dir_string + "_Run"
+			sprite.frame = state_timer * 4 / dodge_timer
 		PS.FURY:
 			sprite.animation = "D_Idle"
 			sprite.frame = int(float(state_timer)*idle_anim_speed) % 4
@@ -331,9 +367,26 @@ func animation():
 			var frames = get_window_value(attack, window, AG.WINDOW_ANIM_FRAMES)
 			var frame_start = get_window_value(attack, window, AG.WINDOW_ANIM_FRAME_START)
 			var win_length = get_window_value(attack, window, AG.WINDOW_LENGTH)
-			sprite.animation = dir_string + "_Swing"
+			var attack_string := ""
+			
+			if(attack == AT.SWING):
+				attack_string = "Swing"
+			elif(attack == AT.CHARGE):
+				attack_string = "Charge"
+			else:
+				attack_string = "Swing"
+			
+			sprite.animation = dir_string + "_" + attack_string
 			sprite.frame = int(frame_start + window_timer*frames/win_length)
 
 
 func _on_HurtboxComponent_area_entered(area):
-	pass # Replace with function body.
+	take_hit(area)
+
+func take_hit(area: Hitbox):
+	$HealthComponent.take_damage(area.damage)
+	var angle = area.parent_id.dir_facing.rotated(area.angle).angle()
+	velocity = Vector2(cos(angle), sin(angle))*area.knockback
+	hitstun_time = area.hitstun
+	set_state(PS.HIT)
+	area.parent_id.enemy_hit(self)

@@ -48,6 +48,10 @@ var detection_dist := 300.0
 
 onready var sprite = $Sprite
 onready var hitbox_parent = $HitboxParent
+onready var lunge_player:AudioStreamPlayer2D = $LungePlayer
+onready var lunge_sounds_ogg:Array = [preload("res://assets/sounds/player/step1.ogg"), 
+									preload("res://assets/sounds/player/step2.ogg"), 
+									preload("res://assets/sounds/player/step3.ogg")]
 
 var idle_anim_speed := .1
 var run_anim_speed := .2
@@ -69,7 +73,7 @@ func _physics_process(delta: float) -> void:
 			dir_facing = Vector2.LEFT
 	state_update()
 	animation()
-	
+	#print(velocity)
 	velocity = move_and_slide(velocity)
 	
 func move():
@@ -165,6 +169,9 @@ func attack_update():
 		
 	match attack:
 		AT.LUNGE:
+			if(window == 2 and window_timer == 1):
+				lunge_player.stream = lunge_sounds_ogg[randi() % 3]
+				lunge_player.play()
 			pass
 		_:
 			pass
@@ -217,9 +224,17 @@ func create_hitbox(_attack, hbox_num, _x, _y):
 	var new_hitbox = pHitBox.instance()
 	new_hitbox.attack = attack
 	new_hitbox.hbox_num = hbox_num
-	new_hitbox.parent_id = self	
+	new_hitbox.parent_id = self
+	new_hitbox.collision_layer = 64
+	new_hitbox.collision_mask = 32
 	new_hitbox.declare()
 	hitbox_parent.add_child(new_hitbox)
+	pass
+
+func enemy_hit(enemy_id:KinematicBody2D):
+	#hit_sound.play()
+	#var hfx := slash_hitfx.instance()
+	#enemy_id.add_child(hfx)
 	pass
 
 func set_attack_value(_attack: int, index: int, value: float):
@@ -267,7 +282,7 @@ func _on_HurtboxComponent_area_entered(area: Hitbox):
 
 func take_hit(area: Hitbox):
 	$HealthComponent.take_damage(area.damage)
-	var angle = area.parent_id.dir_facing.angle()
+	var angle = area.parent_id.dir_facing.rotated(area.angle).angle()
 	velocity = Vector2(cos(angle), sin(angle))*area.knockback
 	hitstun_time = area.hitstun
 	set_state(PS.HIT)

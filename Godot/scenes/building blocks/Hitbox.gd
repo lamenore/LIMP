@@ -16,6 +16,7 @@ var damage:int
 var lifetime:int
 var hitbox_timer := 0
 var knockback:int
+var angle:int
 
 var hitstun:int
 
@@ -42,11 +43,11 @@ func declare():
 	hitstun = get_hitbox_value(attack, hbox_num, HG.HITSTUN)
 	var hbox_pos = Vector2(get_hitbox_value(attack, hbox_num, HG.HITBOX_FORW),
 							get_hitbox_value(attack, hbox_num, HG.HITBOX_SIDE))
-	position = hbox_pos.rotated(hbox_pos.angle_to(parent_id.dir_facing))
+	position = hbox_pos.rotated(parent_id.dir_facing.angle())
 	scale = Vector2(get_hitbox_value(attack, hbox_num, HG.WIDTH),
 						get_hitbox_value(attack, hbox_num, HG.HEIGHT))
 	rotation = parent_id.dir_facing.angle()
-	
+	angle = deg2rad(get_hitbox_value(attack, hbox_num, HG.ANGLE))
 	
 # Called every frame.
 func _physics_process(delta):
