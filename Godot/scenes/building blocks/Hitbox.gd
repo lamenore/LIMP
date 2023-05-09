@@ -1,9 +1,11 @@
 extends Area2D
 class_name Hitbox
 
-var attack_data: PlayerVariables.AttackData = PlayerVariables.attack_data
-var PS = Globals.PS
-var AT = Globals.AT
+var parent_id:KinematicBody2D
+
+var attack_data
+var PS:Dictionary
+var AT:Dictionary
 var AG = Globals.AG
 var HG = Globals.HG
 
@@ -15,7 +17,8 @@ var lifetime:int
 var hitbox_timer := 0
 var knockback:int
 
-var parent_id:KinematicBody2D
+var hitstun:int
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -23,16 +26,27 @@ func _ready():
 	pass
 
 func declare():
+	match parent_id.entity_type:
+		Globals.ET.SAP_SLIME:
+			PS = Globals.SS_PS
+			AT = Globals.SS_AT
+			attack_data = EnemiesVariables.sap_slime_attack_data
+		Globals.ET.PLAYER:
+			PS = Globals.PS
+			AT = Globals.AT
+			attack_data = PlayerVariables.attack_data
+
 	damage = get_hitbox_value(attack, hbox_num, HG.DAMAGE)
 	lifetime = get_hitbox_value(attack, hbox_num, HG.LIFETIME)
+	knockback = get_hitbox_value(attack, hbox_num, HG.KNOCKBACK)
+	hitstun = get_hitbox_value(attack, hbox_num, HG.HITSTUN)
 	var hbox_pos = Vector2(get_hitbox_value(attack, hbox_num, HG.HITBOX_FORW),
 							get_hitbox_value(attack, hbox_num, HG.HITBOX_SIDE))
 	position = hbox_pos.rotated(hbox_pos.angle_to(parent_id.dir_facing))
 	scale = Vector2(get_hitbox_value(attack, hbox_num, HG.WIDTH),
 						get_hitbox_value(attack, hbox_num, HG.HEIGHT))
 	rotation = parent_id.dir_facing.angle()
-	print(parent_id)
-	print(typeof(parent_id))
+	
 	
 # Called every frame.
 func _physics_process(delta):
