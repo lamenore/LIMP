@@ -46,6 +46,12 @@ config/icon="res://icon.png"
 
 Globals="*res://Globals.gd"
 PlayerVariables="*res://scenes/player/PlayerVariables.gd"
+EnemiesVariables="*res://scenes/enemies/EnemiesVariables.gd"
+FightMusic="*res://scenes/FightMusic.tscn"
+
+[display]
+
+window/stretch/mode="viewport"
 
 [editor]
 
@@ -58,11 +64,17 @@ enabled=PoolStringArray( "res://addons/AsepriteWizard/plugin.cfg" )
 
 [global]
 
-opengl=false
+opengl=true
 
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
+
+[importer_defaults]
+
+texture={
+"flags/filter": false
+}
 
 [input]
 
@@ -115,7 +127,11 @@ special={
 2d_physics/layer_2="Player"
 2d_physics/layer_3="Enemy"
 2d_physics/layer_4="Collectable"
-2d_physics/layer_5="Bonus"
+2d_physics/layer_5="PlayerHitboxes"
+2d_physics/layer_6="PlayerHurtboxes"
+2d_physics/layer_7="EnemyHitboxes"
+2d_physics/layer_8="EnemyHurtboxes"
+2d_physics/layer_9="Bonus"
 
 [physics]
 

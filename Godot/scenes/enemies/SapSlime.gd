@@ -1,26 +1,30 @@
 extends KinematicBody2D
 
-var entity_type = Globals.ET.PLAYER
+signal got_hit
+
+var entity_type = Globals.ET.SAP_SLIME
 
 var pHitBox = preload("res://scenes/building blocks/Hitbox.tscn")
 
-var PS = Globals.PS
-var AT = Globals.AT
+var PS = Globals.SS_PS
+var AT = Globals.SS_AT
 var AG = Globals.AG
 var HG = Globals.HG
 
-var attack_data: PlayerVariables.AttackData = PlayerVariables.attack_data
+var attack_data: EnemiesVariables.SapSlimeAttackData = EnemiesVariables.sap_slime_attack_data
 
 var prev_prev_state:int = 0
 var prev_state:int = 0
 var state:int = PS.IDLE
 var state_timer:int = 0
 var hittable_hitpause_mult:float = 1
+var histun_time := 0
 
-export var speed := 200.0
+var can_move := true
+export var speed := 100.0
 export var can_accelerate := true
 export var acceleration := 35.0
-export var friction := 35.0
+export var friction := 25.0
 
 var attack:int = 0
 var window:int = 0
@@ -32,49 +36,28 @@ var dir_facing := Vector2.DOWN
 
 var hitstop:int = 0
 var hitstop_full:int = 0
-
-var has_dodge:bool = true
-var dodge_pressed:bool = false
-var dodge_counter = 0
-var dodge_down:bool = false
-var dodge_timer = 15
+var hitstun_time:int = 0
 
 var can_attack:bool = true
 var attack_pressed:bool = false
 var attack_counter = 0
 var attack_down:bool = false
 
-var can_special:bool = true
-var special_pressed:bool = false
-var special_counter = 0
-var special_down:bool = false
+var lunge_dist := 50.0
+var detection_dist := 300.0
 
-onready var sprite = $JackSprite
+onready var sprite = $Sprite
 onready var hitbox_parent = $HitboxParent
-onready var slash_sound:AudioStreamPlayer2D = $SlashSound
-onready var slash_hitfx:PackedScene = preload("res://scenes/building blocks/SlashHitFX.tscn")
 
 var idle_anim_speed := .1
 var run_anim_speed := .2
 
 func _physics_process(delta: float) -> void:
 	_friction(delta)
-	get_inputs()
-	state_update()
-	animation()
+	ai_update()
 	
-	#print(dir_facing)
-	#print("state_timer: %s" % state_timer)
-	#print("attack pressed %s" % attack_pressed)
-	
-	velocity = move_and_slide(velocity)
-	
-func move():
-	
-	velocity = dir_input * speed
-
-func turn_around():
 	if(dir_input != Vector2.ZERO):
+		
 		var angle = round(rad2deg(dir_input.angle()))
 		if(angle >= 45.0 and angle <= 135.0):
 			dir_facing = Vector2.DOWN
@@ -84,48 +67,40 @@ func turn_around():
 			dir_facing = Vector2.RIGHT
 		else:
 			dir_facing = Vector2.LEFT
+	state_update()
+	animation()
+	
+	velocity = move_and_slide(velocity)
+	
+func move():
+	velocity = dir_input * speed
 
-func _friction(delta):
-	if can_accelerate:
+func ai_update():
+	var scene_tree := get_tree()
+	var player_id:KinematicBody2D
+	
+	attack_pressed = attack_counter > 0
+	attack_counter -= 1
+	
+	if scene_tree.has_group("player"):
+		player_id = scene_tree.get_nodes_in_group("player")[0]
+	
+	if player_id:
+		var dist := player_id.global_position.distance_to(global_position)
+		if dist < detection_dist:
+			var angle = get_angle_to(player_id.global_position)
+			dir_input = Vector2(cos(angle), sin(angle))
+		if dist < lunge_dist:
+			attack_counter = 7
+			attack_pressed = true
+
+func _friction(delta) -> void:
+	if can_accelerate and !hitstop:
 		var _fric = friction
 		if(state == PS.ATTACK and get_window_value(attack, window, AG.WINDOW_HAS_CUSTOM_FRICTION)):
 			_fric *= get_window_value(attack, window, AG.WINDOW_CUSTOM_FRICTION)
 		velocity = velocity.move_toward(Vector2.ZERO, _fric)
 
-func shoot():
-	pass
-
-func get_inputs():
-	dir_input = get_dir_input()
-	
-	#Dodge buffer
-	dodge_down = Input.is_action_pressed("dodge")
-	dodge_pressed = dodge_counter > 0
-	dodge_counter -= 1
-	
-	#Attack buffer
-	attack_down = Input.is_action_pressed("attack")
-	attack_pressed = attack_counter > 0
-	attack_counter -= 1
-	
-	#Special buffer
-	special_down = Input.is_action_pressed("special")
-	special_pressed = special_counter > 0
-	special_counter -= 1
-
-func get_dir_input():
-	return Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
-
-func _input(event):
-	if event.is_action_pressed("dodge"):
-		dodge_counter = 7
-		dodge_down = true
-	if event.is_action_pressed("attack"):
-		attack_counter = 7
-		attack_down = true
-	if event.is_action_pressed("special"):
-		special_counter = 7
-		special_down = true
 
 func set_state(new_state: int):
 	prev_prev_state = prev_state
@@ -134,17 +109,9 @@ func set_state(new_state: int):
 	state_timer = 0
 
 	match new_state:
-		PS.RUN:
+		PS.HIT:
 			pass
-		PS.IDLE:
-			pass
-		PS.FURY:
-			pass
-		PS.DODGE:
-			pass
-		PS.DEAD:
-			pass
-		PS.ATTACK:
+		_:
 			pass
 	
 func set_attack(new_attack: int):
@@ -160,40 +127,34 @@ func state_update():
 	if !hitstop:
 		state_timer += 1
 	
-	if state == PS.DODGE:
-		can_attack = false
-		if state_timer >= dodge_timer:
-			set_state(PS.IDLE)
-	
 	if state == PS.ATTACK:
 		can_attack = false
+		can_move = false
 		
 	if state == PS.IDLE:
 		can_attack = true
 		if(dir_input != Vector2.ZERO):
-			set_state(PS.RUN)
-		if(dodge_pressed and has_dodge):
-			set_state(PS.DODGE)
-		turn_around()
+			set_state(PS.WALK)
 		
-	if state == PS.RUN:
+	if state == PS.WALK:
 		can_attack = true
-		if(dodge_pressed and has_dodge):
-			set_state(PS.DODGE)
 		if(dir_input == Vector2.ZERO):
 			set_state(PS.IDLE)
-		turn_around()
+		can_move = true
+	
+	if state == PS.HIT:
+		can_attack = false
+		if(state_timer >= hitstun_time):
+			set_state(PS.IDLE)
+		can_move = false
+	
+	if(can_move):
 		move()
-		
+	
 	if(can_attack):
 		if(attack_pressed):
 			attack_counter = 0
-			set_attack(AT.SWING)
-			
-	if(can_special):
-		if(special_pressed):
-			special_counter = 0
-			set_attack(AT.PROJ)
+			set_attack(AT.LUNGE)
 			
 	if state == PS.ATTACK:
 		attack_update()
@@ -203,11 +164,8 @@ func attack_update():
 		window_timer += 1
 		
 	match attack:
-		AT.PROJ:
+		AT.LUNGE:
 			pass
-		AT.SWING:
-			if state_timer <= 12:
-				turn_around()
 		_:
 			pass
 	
@@ -235,12 +193,12 @@ func window_speed():
 	match int(get_window_value(attack, window, AG.WINDOW_SPEED_TYPE)):
 		0:
 			if(window_timer == 0):
-				velocity += dir_facing*get_window_value(attack, window, AG.WINDOW_SPEED)
+				velocity += dir_input*get_window_value(attack, window, AG.WINDOW_SPEED)
 		1:
-			velocity = dir_facing*get_window_value(attack, window, AG.WINDOW_SPEED)
+			velocity = dir_input*get_window_value(attack, window, AG.WINDOW_SPEED)
 		2:
 			if(window_timer == 0):
-				velocity = dir_facing*get_window_value(attack, window, AG.WINDOW_SPEED)
+				velocity = dir_input*get_window_value(attack, window, AG.WINDOW_SPEED)
 				
 func window_create_hitbox():
 	var h_n := get_num_hitboxes(attack)
@@ -259,26 +217,11 @@ func create_hitbox(_attack, hbox_num, _x, _y):
 	var new_hitbox = pHitBox.instance()
 	new_hitbox.attack = attack
 	new_hitbox.hbox_num = hbox_num
-	new_hitbox.parent_id = self
-	new_hitbox.collision_layer = 16
-	new_hitbox.collision_mask = 128
+	new_hitbox.parent_id = self	
 	new_hitbox.declare()
 	hitbox_parent.add_child(new_hitbox)
 	pass
 
-func enemy_hit(enemy_id:KinematicBody2D):
-	slash_sound.play()
-	var hfx := slash_hitfx.instance()
-	enemy_id.add_child(hfx)
-
-func frameFreeze(timeScale, duration):
-	Engine.time_scale = timeScale
-	hitstop = true
-	yield(get_tree().create_timer(duration * timeScale), "timeout")
-	hitstop = false
-	Engine.time_scale = 1.0
-
-#Attack grid
 func set_attack_value(_attack: int, index: int, value: float):
 	attack_data.set_attack_value(_attack, index, value)
 
@@ -304,36 +247,32 @@ func get_hitbox_value(_attack: int, _hbox_num: int, index: int) -> float:
 	return attack_data.get_hitbox_value(_attack, _hbox_num, index)
 
 func animation():
-	var dir_string := ""
-	if(dir_facing == Vector2.LEFT):
-		dir_string = "L"
-	elif(dir_facing == Vector2.RIGHT):
-		dir_string = "R"
-	elif(dir_facing == Vector2.UP):
-		dir_string = "U"
-	else:
-		dir_string = "D"
-	
 	match state:
-		PS.IDLE:
-			sprite.animation = dir_string + "_Idle"
-			sprite.frame = int(float(state_timer)*idle_anim_speed) % 4
-		PS.RUN:
-			sprite.animation = dir_string + "_Run"
-			sprite.frame = int(float(state_timer)*run_anim_speed) % 4
-		PS.DODGE:
-			sprite.animation = "D_Idle"
-			sprite.frame = int(float(state_timer)*idle_anim_speed) % 4
-		PS.FURY:
-			sprite.animation = "D_Idle"
-			sprite.frame = int(float(state_timer)*idle_anim_speed) % 4
+		PS.IDLE, PS.HIT:
+			sprite.animation = "all_walk"
+			sprite.frame = 0
+		PS.WALK:
+			sprite.animation = "all_walk"
+			sprite.frame = int(float(state_timer)*run_anim_speed) % 6
 		PS.ATTACK:
 			var frames = get_window_value(attack, window, AG.WINDOW_ANIM_FRAMES)
 			var frame_start = get_window_value(attack, window, AG.WINDOW_ANIM_FRAME_START)
 			var win_length = get_window_value(attack, window, AG.WINDOW_LENGTH)
-			sprite.animation = dir_string + "_Swing"
+			sprite.animation = "all_attack"
 			sprite.frame = int(frame_start + window_timer*frames/win_length)
 
 
-func _on_HurtboxComponent_area_entered(area):
-	pass # Replace with function body.
+func _on_HurtboxComponent_area_entered(area: Hitbox):
+	take_hit(area)
+
+func take_hit(area: Hitbox):
+	$HealthComponent.take_damage(area.damage)
+	var angle = area.parent_id.dir_facing.angle()
+	velocity = Vector2(cos(angle), sin(angle))*area.knockback
+	hitstun_time = area.hitstun
+	set_state(PS.HIT)
+	area.parent_id.enemy_hit(self)
+	
+func _on_HealthComponent_zero_health():
+	#queue_free()
+	pass

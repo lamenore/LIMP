@@ -62,7 +62,7 @@ class AttackData:
 		set_window_value(AT.SWING, 1, AG.WINDOW_TYPE, 1);
 		set_window_value(AT.SWING, 1, AG.WINDOW_HAS_CUSTOM_FRICTION, 1);
 		set_window_value(AT.SWING, 1, AG.WINDOW_CUSTOM_FRICTION, .85);
-		set_window_value(AT.SWING, 1, AG.WINDOW_LENGTH, 20);
+		set_window_value(AT.SWING, 1, AG.WINDOW_LENGTH, 15);
 		set_window_value(AT.SWING, 1, AG.WINDOW_ANIM_FRAMES, 3);
 		set_window_value(AT.SWING, 1, AG.WINDOW_HAS_SFX, 1);
 		set_window_value(AT.SWING, 1, AG.WINDOW_SFX, 0);
@@ -73,7 +73,7 @@ class AttackData:
 		set_window_value(AT.SWING, 2, AG.WINDOW_CUSTOM_FRICTION, .1);
 		set_window_value(AT.SWING, 2, AG.WINDOW_LENGTH, 3);
 		set_window_value(AT.SWING, 2, AG.WINDOW_SPEED_TYPE, 0);
-		set_window_value(AT.SWING, 2, AG.WINDOW_SPEED, 400.0);
+		set_window_value(AT.SWING, 2, AG.WINDOW_SPEED, 200.0);
 		set_window_value(AT.SWING, 2, AG.WINDOW_ANIM_FRAMES, 1);
 		set_window_value(AT.SWING, 2, AG.WINDOW_ANIM_FRAME_START, 3);
 
@@ -88,11 +88,13 @@ class AttackData:
 		
 		set_hitbox_value(AT.SWING, 1, HG.WINDOW, 2);
 		set_hitbox_value(AT.SWING, 1, HG.LIFETIME, 3);
-		set_hitbox_value(AT.SWING, 1, HG.HITBOX_FORW, 20);
+		set_hitbox_value(AT.SWING, 1, HG.HITBOX_FORW, 14);
 		set_hitbox_value(AT.SWING, 1, HG.HITBOX_SIDE, 0);
-		set_hitbox_value(AT.SWING, 1, HG.WIDTH, 12);
+		set_hitbox_value(AT.SWING, 1, HG.WIDTH, 18);
 		set_hitbox_value(AT.SWING, 1, HG.HEIGHT, 18);
 		set_hitbox_value(AT.SWING, 1, HG.DAMAGE, 7);
+		set_hitbox_value(AT.SWING, 1, HG.KNOCKBACK, 400.0);
+		set_hitbox_value(AT.SWING, 1, HG.HITSTUN, 25);
 		
 	func load_proj_attack():
 		set_attack_value(AT.PROJ, AG.NUM_WINDOWS, 3);

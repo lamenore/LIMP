@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/VAE_jam_song_edits_2.ogg-c8713cd40e8c48ad6ae726d80f0410a2.oggstr"
+
+[deps]
+
+source_file="res://assets/music/VAE_jam_song_edits_2.ogg"
+dest_files=[ "res://.import/VAE_jam_song_edits_2.ogg-c8713cd40e8c48ad6ae726d80f0410a2.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
