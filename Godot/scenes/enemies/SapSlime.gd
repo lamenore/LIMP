@@ -49,9 +49,9 @@ var detection_dist := 300.0
 onready var sprite = $Sprite
 onready var hitbox_parent = $HitboxParent
 onready var lunge_player:AudioStreamPlayer2D = $LungePlayer
-onready var lunge_sounds_ogg:Array = [preload("res://assets/sounds/player/step1.ogg"), 
-									preload("res://assets/sounds/player/step2.ogg"), 
-									preload("res://assets/sounds/player/step3.ogg")]
+onready var lunge_sounds_ogg:Array = [preload("res://assets/sounds/enemies/slime/slime_lunge1.ogg"), 
+									preload("res://assets/sounds/enemies/slime/slime_lunge2.ogg"), 
+									preload("res://assets/sounds/enemies/slime/slime_lunge3.ogg")]
 
 var idle_anim_speed := .1
 var run_anim_speed := .2
@@ -117,7 +117,10 @@ func set_state(new_state: int):
 			pass
 		_:
 			pass
-	
+			
+	if(prev_state == PS.ATTACK):
+		for hbox in hitbox_parent.get_children():
+			hbox.queue_free()
 func set_attack(new_attack: int):
 	attack = new_attack
 	window = 1

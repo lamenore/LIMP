@@ -1,6 +1,7 @@
-[gd_scene load_steps=54 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://scenes/player/player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/enemies/Pumpkin.tscn" type="PackedScene" id=2]
 [ext_resource path="res://placeholder/Tilemap2.png" type="Texture" id=3]
 [ext_resource path="res://scenes/enemies/SapSlime.tscn" type="PackedScene" id=4]
 
@@ -494,3 +495,6 @@ position = Vector2( -166, 10 )
 
 [node name="SapSlime4" parent="YSort" instance=ExtResource( 4 )]
 position = Vector2( 42, -134 )
+
+[node name="Pumpkin" parent="YSort" instance=ExtResource( 2 )]
+position = Vector2( 137, -94 )
