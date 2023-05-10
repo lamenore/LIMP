@@ -63,7 +63,7 @@ class AttackData:
 		set_window_value(AT.SWING, 1, AG.WINDOW_HAS_CUSTOM_FRICTION, 1);
 		set_window_value(AT.SWING, 1, AG.WINDOW_CUSTOM_FRICTION, .85);
 		set_window_value(AT.SWING, 1, AG.WINDOW_LENGTH, 15);
-		set_window_value(AT.SWING, 1, AG.WINDOW_ANIM_FRAMES, 3);
+		set_window_value(AT.SWING, 1, AG.WINDOW_ANIM_FRAMES, 2);
 		set_window_value(AT.SWING, 1, AG.WINDOW_HAS_SFX, 1);
 		set_window_value(AT.SWING, 1, AG.WINDOW_SFX, 0);
 		set_window_value(AT.SWING, 1, AG.WINDOW_SFX_FRAME, 2);
@@ -75,14 +75,14 @@ class AttackData:
 		set_window_value(AT.SWING, 2, AG.WINDOW_SPEED_TYPE, 0);
 		set_window_value(AT.SWING, 2, AG.WINDOW_SPEED, 200.0);
 		set_window_value(AT.SWING, 2, AG.WINDOW_ANIM_FRAMES, 1);
-		set_window_value(AT.SWING, 2, AG.WINDOW_ANIM_FRAME_START, 3);
+		set_window_value(AT.SWING, 2, AG.WINDOW_ANIM_FRAME_START, 2);
 
 		set_window_value(AT.SWING, 3, AG.WINDOW_TYPE, 1);
 		set_window_value(AT.SWING, 3, AG.WINDOW_HAS_CUSTOM_FRICTION, 1);
 		set_window_value(AT.SWING, 3, AG.WINDOW_CUSTOM_FRICTION, 1);
 		set_window_value(AT.SWING, 3, AG.WINDOW_LENGTH, 15);
 		set_window_value(AT.SWING, 3, AG.WINDOW_ANIM_FRAMES, 2);
-		set_window_value(AT.SWING, 3, AG.WINDOW_ANIM_FRAME_START, 4);
+		set_window_value(AT.SWING, 3, AG.WINDOW_ANIM_FRAME_START, 3);
 		
 		set_num_hitboxes(AT.SWING, 1)
 		
@@ -102,7 +102,7 @@ class AttackData:
 		
 		set_window_value(AT.PROJ, 1, AG.WINDOW_TYPE, 1);
 		set_window_value(AT.PROJ, 1, AG.WINDOW_LENGTH, 5);
-		set_window_value(AT.PROJ, 1, AG.WINDOW_ANIM_FRAMES, 3);
+		set_window_value(AT.PROJ, 1, AG.WINDOW_ANIM_FRAMES, 2);
 		set_window_value(AT.PROJ, 1, AG.WINDOW_HAS_SFX, 1);
 		set_window_value(AT.PROJ, 1, AG.WINDOW_SFX, 0);
 		set_window_value(AT.PROJ, 1, AG.WINDOW_SFX_FRAME, 2);
@@ -110,12 +110,12 @@ class AttackData:
 		set_window_value(AT.PROJ, 2, AG.WINDOW_TYPE, 1);
 		set_window_value(AT.PROJ, 2, AG.WINDOW_LENGTH, 3);
 		set_window_value(AT.PROJ, 2, AG.WINDOW_ANIM_FRAMES, 1);
-		set_window_value(AT.PROJ, 2, AG.WINDOW_ANIM_FRAME_START, 3);
+		set_window_value(AT.PROJ, 2, AG.WINDOW_ANIM_FRAME_START, 2);
 
 		set_window_value(AT.PROJ, 3, AG.WINDOW_TYPE, 1);
 		set_window_value(AT.PROJ, 3, AG.WINDOW_LENGTH, 13);
 		set_window_value(AT.PROJ, 3, AG.WINDOW_ANIM_FRAMES, 4);
-		set_window_value(AT.PROJ, 3, AG.WINDOW_ANIM_FRAME_START, 4);
+		set_window_value(AT.PROJ, 3, AG.WINDOW_ANIM_FRAME_START, 3);
 	
 	func load_charge_attack():
 		set_attack_value(AT.CHARGE, AG.NUM_WINDOWS, 3);
@@ -142,7 +142,7 @@ class AttackData:
 		set_window_value(AT.CHARGE, 3, AG.WINDOW_HAS_CUSTOM_FRICTION, 1);
 		set_window_value(AT.CHARGE, 3, AG.WINDOW_CUSTOM_FRICTION, 1);
 		set_window_value(AT.CHARGE, 3, AG.WINDOW_LENGTH, 15);
-		set_window_value(AT.CHARGE, 3, AG.WINDOW_ANIM_FRAMES, 4);
+		set_window_value(AT.CHARGE, 3, AG.WINDOW_ANIM_FRAMES, 3);
 		set_window_value(AT.CHARGE, 3, AG.WINDOW_ANIM_FRAME_START, 8);
 		
 		set_num_hitboxes(AT.CHARGE, 5)

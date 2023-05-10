@@ -2,17 +2,16 @@ extends KinematicBody2D
 
 signal got_hit
 
-export var entity_type := Globals.ET.PUMPKIN
-
-var PS = Globals.P_PS
-var AT = Globals.P_AT
-var AG = Globals.AG
-var HG = Globals.HG
-
-var attack_data: EnemiesVariables.PumpkinAttackData = EnemiesVariables.pumpkin_attack_data
+export var entity_type := Globals.ET.GOBBLER
 
 var pHitBox = preload("res://scenes/building blocks/Hitbox.tscn")
 
+var PS = Globals.G_PS
+var AT = Globals.G_AT
+var AG = Globals.AG
+var HG = Globals.HG
+
+var attack_data: EnemiesVariables.GobblerAttackData = EnemiesVariables.gobbler_attack_data
 var player_id:KinematicBody2D
 
 var prev_prev_state:int = 0
@@ -49,7 +48,7 @@ var attack_pressed:bool = false
 var attack_counter = 0
 var attack_down:bool = false
 
-var lunge_dist := 80.0
+var lunge_dist := 20.0
 var detection_dist := 400.0
 
 onready var sprite = $Sprite
@@ -192,25 +191,11 @@ func attack_update():
 	match attack:
 		AT.LUNGE:
 			if window == 1:
-				if player_id:
-					var dist = global_position.distance_to(player_id.global_position)
-					set_window_value(attack, 2, AG.WINDOW_SPEED, dist*4)
-				
-			var hover_distance := 30
+				pass
 			if(window == 2):
-				if window_timer > 5:
-					invincible = true
 				if(window_timer == 1):
 					lunge_player.stream = lunge_sounds_ogg[randi() % 3]
 					lunge_player.play()
-				var length = get_window_value(attack, window, AG.WINDOW_LENGTH)
-				draw_pos.y = -window_timer * hover_distance / length
-			if(window == 3):
-				invincible = true
-				draw_pos.y = -hover_distance
-			if(window == 4):
-				var length = get_window_value(attack, window, AG.WINDOW_LENGTH)
-				draw_pos.y = -hover_distance + (window_timer * hover_distance / length)
 			pass
 		_:
 			pass
@@ -301,22 +286,12 @@ func get_hitbox_value(_attack: int, _hbox_num: int, index: int) -> float:
 	return attack_data.get_hitbox_value(_attack, _hbox_num, index)
 
 func animation():
-	var dir_string := ""
-	if(dir_facing == Vector2.LEFT):
-		dir_string = "L"
-	elif(dir_facing == Vector2.RIGHT):
-		dir_string = "R"
-	elif(dir_facing == Vector2.UP):
-		dir_string = "U"
-	else:
-		dir_string = "D"
-	
 	match state:
 		PS.IDLE:
-			sprite.animation = dir_string + "_Idle"
+			sprite.animation = "all_idle"
 			sprite.frame = int(float(state_timer)*idle_anim_speed) % 4
 		PS.WALK:
-			sprite.animation = dir_string + "_Walk"
+			sprite.animation = "all_run"
 			sprite.frame = int(float(state_timer)*run_anim_speed) % 4
 		PS.ATTACK:
 			var frames = get_window_value(attack, window, AG.WINDOW_ANIM_FRAMES)
@@ -324,9 +299,9 @@ func animation():
 			var win_length = get_window_value(attack, window, AG.WINDOW_LENGTH)
 			var attack_string := ""
 
-			attack_string = "Jump"
+			attack_string = "Attack"
 			
-			sprite.animation = dir_string + "_" + attack_string
+			sprite.animation = "R_" + attack_string
 			sprite.frame = int(frame_start + window_timer*frames/win_length)
 
 func sprite_update():

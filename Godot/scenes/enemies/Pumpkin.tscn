@@ -418,10 +418,9 @@ animations = [ {
 "speed": 13.0
 } ]
 
-[node name="Pumpkin" type="KinematicBody2D" groups=["enemy"]]
+[node name="Pumpkin" type="KinematicBody2D" groups=["enemy", "pumpkin"]]
 position = Vector2( 0, -4.954 )
-collision_layer = 4
-collision_mask = 5
+collision_layer = 0
 script = ExtResource( 4 )
 
 [node name="Collision" type="CollisionShape2D" parent="."]

@@ -52,6 +52,8 @@ var attack_counter = 0
 var attack_down:bool = false
 var charge_time:int = 30
 var charge_counter:int = 0
+var can_let_out_charge:bool = true
+var charge_lock:bool = false
 
 var can_special:bool = true
 var special_pressed:bool = false
@@ -62,6 +64,7 @@ onready var camera = $PlayerCamera
 onready var sprite = $JackSprite
 onready var hitbox_parent = $HitboxParent
 onready var pHurtBox = $HurtboxComponent
+onready var dust_effect = $DustParticles
 onready var slash_sound:AudioStreamPlayer2D = $SlashSound
 onready var hit_sound:AudioStreamPlayer2D = $HitSound
 onready var step_sound:AudioStreamPlayer2D = $StepSound
@@ -79,13 +82,9 @@ func _physics_process(delta: float) -> void:
 	state_update()
 	animation()
 	
-	#print(dir_facing)
-	#print("state_timer: %s" % state_timer)
-	#print("attack pressed %s" % attack_pressed)
 	velocity = move_and_slide(velocity)
 	
 func move():
-	
 	velocity = dir_input * speed
 
 func turn_around():
@@ -105,7 +104,7 @@ func _friction(delta):
 		var _fric = ground_friction
 		if(state == PS.ATTACK and get_window_value(attack, window, AG.WINDOW_HAS_CUSTOM_FRICTION)):
 			_fric *= get_window_value(attack, window, AG.WINDOW_CUSTOM_FRICTION)
-		if(state == PS.DODGE and state_timer <= 12):
+		if(state == PS.DODGE and state_timer <= dodge_invincibility_time):
 			_fric *= 0.3
 		velocity = velocity.move_toward(Vector2.ZERO, _fric)
 
@@ -135,7 +134,7 @@ func get_dir_input():
 
 func _input(event):
 	if event.is_action_pressed("dodge"):
-		dodge_counter = 7
+		dodge_counter = 15
 		dodge_down = true
 	if event.is_action_pressed("attack"):
 		attack_counter = 7
@@ -160,8 +159,10 @@ func set_state(new_state: int):
 		PS.DODGE:
 			invincible = true
 			pHurtBox.set_deferred("monitoring", false)
-			velocity = dir_input*400.0
-			print(velocity)
+			if dir_input != Vector2.ZERO:
+				velocity = dir_input*400.0
+			else:
+				velocity = dir_facing*400.0
 		PS.DEAD:
 			pass
 		PS.ATTACK:
@@ -178,7 +179,12 @@ func set_attack(new_attack: int):
 	window_timer = 0
 	charge_counter = 0
 	
+	turn_around()
 	window_speed()
+	
+	match attack:
+		AT.CHARGE:
+			charge_lock = true
 	
 	set_state(PS.ATTACK)
 	
@@ -190,6 +196,9 @@ func state_update():
 		can_attack = false
 		can_dodge = false
 		can_move = false
+		can_let_out_charge = false
+		if(state_timer >= 12):
+			can_let_out_charge = true
 		if state_timer >= dodge_invincibility_time:
 			invincible = false
 		else:
@@ -201,11 +210,13 @@ func state_update():
 		can_attack = false
 		can_move = false
 		can_dodge = false
+		can_let_out_charge = true
 		
 	if state == PS.IDLE:
 		can_attack = true
 		can_move = false
 		can_dodge = true
+		can_let_out_charge = true
 		if(dir_input != Vector2.ZERO):
 			set_state(PS.RUN)
 		turn_around()
@@ -214,20 +225,34 @@ func state_update():
 		can_attack = true
 		can_move = true
 		can_dodge = true
+		can_let_out_charge = true
+		dust_effect.emitting = true
 		if(state_timer % 16 == 6):
 			step_sound.stream = step_sounds_ogg[randi() % 3]
 			step_sound.play()
 		if(dir_input == Vector2.ZERO):
 			set_state(PS.IDLE)
 		turn_around()
+	else:
+		dust_effect.emitting = false
 	
 	if state == PS.HIT:
 		can_attack = false
 		can_move = false
 		can_dodge = false
+		can_let_out_charge = false
 		if(state_timer >= hitstun_time):
 			set_state(PS.IDLE)
 	
+	
+	if attack_down:
+		if(charge_counter < charge_time):
+			charge_counter += 1
+	else:
+		if charge_counter >= charge_time:
+			if(can_let_out_charge):
+				set_attack(AT.CHARGE)
+				
 	if(can_move):
 		move()
 		
@@ -264,11 +289,6 @@ func attack_update():
 			if(window == 1 and window_timer == get_window_value(attack, window, AG.WINDOW_LENGTH)):
 				slash_sound.play()
 		AT.SWING:
-			if attack_down:
-				if(charge_counter < charge_time):
-					charge_counter += 1
-				else:
-					set_attack(AT.CHARGE)
 			if state_timer <= 12:
 				turn_around()
 			if(window == 1 and window_timer == get_window_value(attack, window, AG.WINDOW_LENGTH)):
@@ -391,8 +411,8 @@ func animation():
 			sprite.animation = dir_string + "_Run"
 			sprite.frame = int(float(state_timer)*run_anim_speed) % 4
 		PS.DODGE:
-			sprite.animation = dir_string + "_Run"
-			sprite.frame = state_timer * 4 / dodge_timer
+			sprite.animation = dir_string + "_Dodge"
+			sprite.frame = state_timer * 7 / dodge_timer
 		PS.FURY:
 			sprite.animation = "D_Idle"
 			sprite.frame = int(float(state_timer)*idle_anim_speed) % 4
@@ -420,6 +440,8 @@ func take_hit(area: Hitbox):
 	$HealthComponent.take_damage(area.damage)
 	var angle = area.parent_id.dir_facing.rotated(area.angle).angle()
 	velocity = Vector2(cos(angle), sin(angle))*area.knockback
+	print(area.knockback)
+	print("KNOCKBACK!!!!")
 	hitstun_time = area.hitstun
 	set_state(PS.HIT)
 	area.parent_id.enemy_hit(self)

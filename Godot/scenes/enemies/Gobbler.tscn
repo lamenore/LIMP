@@ -1,9 +1,9 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://scenes/player/HurtboxComponent.gd" type="Script" id=1]
 [ext_resource path="res://scenes/player/HealthComponent.gd" type="Script" id=2]
 [ext_resource path="res://scenes/player/HitboxParent.gd" type="Script" id=3]
-[ext_resource path="res://scenes/enemies/SapSlime.gd" type="Script" id=4]
+[ext_resource path="res://scenes/enemies/Gobbler.gd" type="Script" id=4]
 [ext_resource path="res://assets/sounds/enemies/slime/slime_lunge1.ogg" type="AudioStream" id=5]
 
 [sub_resource type="CapsuleShape2D" id=16]
@@ -13,67 +13,101 @@ height = 8.09204
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 9, 6 )
 
-[sub_resource type="StreamTexture" id=3]
-load_path = "res://.import/sap_slime.png-8dd4ec898c89c6d38c2dd85c44c21eec.stex"
+[sub_resource type="StreamTexture" id=17]
+load_path = "res://.import/gobbler.png-7340b068d272654b49eec19799a94af5.stex"
 
-[sub_resource type="AtlasTexture" id=4]
-atlas = SubResource( 3 )
-region = Rect2( 32, 22, 32, 22 )
+[sub_resource type="AtlasTexture" id=18]
+atlas = SubResource( 17 )
+region = Rect2( 98, 22, 49, 22 )
 
-[sub_resource type="AtlasTexture" id=5]
-atlas = SubResource( 3 )
-region = Rect2( 64, 22, 32, 22 )
+[sub_resource type="AtlasTexture" id=19]
+atlas = SubResource( 17 )
+region = Rect2( 147, 22, 49, 22 )
 
-[sub_resource type="AtlasTexture" id=6]
-atlas = SubResource( 3 )
-region = Rect2( 96, 22, 32, 22 )
+[sub_resource type="AtlasTexture" id=20]
+atlas = SubResource( 17 )
+region = Rect2( 196, 22, 49, 22 )
 
-[sub_resource type="AtlasTexture" id=7]
-atlas = SubResource( 3 )
-region = Rect2( 0, 44, 32, 22 )
+[sub_resource type="AtlasTexture" id=21]
+atlas = SubResource( 17 )
+region = Rect2( 0, 44, 49, 22 )
 
-[sub_resource type="AtlasTexture" id=8]
-atlas = SubResource( 3 )
-region = Rect2( 32, 44, 32, 22 )
+[sub_resource type="AtlasTexture" id=22]
+atlas = SubResource( 17 )
+region = Rect2( 49, 44, 49, 22 )
 
-[sub_resource type="AtlasTexture" id=9]
-atlas = SubResource( 3 )
-region = Rect2( 64, 44, 32, 22 )
+[sub_resource type="AtlasTexture" id=23]
+atlas = SubResource( 17 )
+region = Rect2( 98, 44, 49, 22 )
 
-[sub_resource type="AtlasTexture" id=10]
-atlas = SubResource( 3 )
-region = Rect2( 0, 0, 32, 22 )
+[sub_resource type="AtlasTexture" id=24]
+atlas = SubResource( 17 )
+region = Rect2( 0, 0, 49, 22 )
 
-[sub_resource type="AtlasTexture" id=11]
-atlas = SubResource( 3 )
-region = Rect2( 32, 0, 32, 22 )
+[sub_resource type="AtlasTexture" id=25]
+atlas = SubResource( 17 )
+region = Rect2( 49, 0, 49, 22 )
 
-[sub_resource type="AtlasTexture" id=12]
-atlas = SubResource( 3 )
-region = Rect2( 64, 0, 32, 22 )
+[sub_resource type="AtlasTexture" id=26]
+atlas = SubResource( 17 )
+region = Rect2( 98, 0, 49, 22 )
 
-[sub_resource type="AtlasTexture" id=13]
-atlas = SubResource( 3 )
-region = Rect2( 96, 0, 32, 22 )
+[sub_resource type="AtlasTexture" id=27]
+atlas = SubResource( 17 )
+region = Rect2( 147, 0, 49, 22 )
 
-[sub_resource type="AtlasTexture" id=14]
-atlas = SubResource( 3 )
-region = Rect2( 0, 22, 32, 22 )
+[sub_resource type="AtlasTexture" id=28]
+atlas = SubResource( 17 )
+region = Rect2( 196, 0, 49, 22 )
 
-[sub_resource type="SpriteFrames" id=15]
+[sub_resource type="AtlasTexture" id=29]
+atlas = SubResource( 17 )
+region = Rect2( 0, 22, 49, 22 )
+
+[sub_resource type="AtlasTexture" id=30]
+atlas = SubResource( 17 )
+region = Rect2( 49, 22, 49, 22 )
+
+[sub_resource type="AtlasTexture" id=31]
+atlas = SubResource( 17 )
+region = Rect2( 147, 44, 49, 22 )
+
+[sub_resource type="AtlasTexture" id=32]
+atlas = SubResource( 17 )
+region = Rect2( 196, 44, 49, 22 )
+
+[sub_resource type="AtlasTexture" id=33]
+atlas = SubResource( 17 )
+region = Rect2( 0, 66, 49, 22 )
+
+[sub_resource type="AtlasTexture" id=34]
+atlas = SubResource( 17 )
+region = Rect2( 49, 66, 49, 22 )
+
+[sub_resource type="SpriteFrames" id=35]
 animations = [ {
-"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 8 ), SubResource( 5 ), SubResource( 6 ), SubResource( 9 ), SubResource( 9 ) ],
+"frames": [ SubResource( 18 ), SubResource( 19 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 18 ) ],
 "loop": true,
-"name": "all_attack",
+"name": "R_Attack",
 "speed": 10.0
 }, {
-"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 12 ), SubResource( 14 ) ],
+"frames": [ SubResource( 24 ), SubResource( 25 ), SubResource( 26 ) ],
 "loop": true,
-"name": "all_walk",
-"speed": 7.0
+"name": "all_idle",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ) ],
+"loop": true,
+"name": "all_run",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 31 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ) ],
+"loop": true,
+"name": "all_stuck",
+"speed": 10.0
 } ]
 
-[node name="SapSlime" type="KinematicBody2D" groups=["enemy"]]
+[node name="Gobbler" type="KinematicBody2D" groups=["enemy", "gobbler"]]
 position = Vector2( 0, -4.954 )
 collision_layer = 4
 collision_mask = 5
@@ -102,18 +136,19 @@ shape = SubResource( 2 )
 script = ExtResource( 3 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
-position = Vector2( 0, -0.046 )
-frames = SubResource( 15 )
-animation = "all_walk"
+position = Vector2( 11, -0.046 )
+frames = SubResource( 35 )
+animation = "all_stuck"
+frame = 4
 __meta__ = {
 "_aseprite_wizard_config_": {
 "layer": "",
 "o_ex_p": "",
-"o_folder": "res://assets/enemies_sprite/sap_slime",
+"o_folder": "res://assets/enemies_sprite/gobbler",
 "o_name": "",
 "only_visible": true,
 "op_exp": false,
-"source": "res://aseprite/enemies/sap_slime.aseprite"
+"source": "res://aseprite/enemies/gobbler.aseprite"
 }
 }
 

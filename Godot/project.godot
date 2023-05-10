@@ -9,11 +9,6 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node",
-"class": "Attack",
-"language": "GDScript",
-"path": "res://scenes/player/Attack.gd"
-}, {
 "base": "Node2D",
 "class": "HealthComponent",
 "language": "GDScript",
@@ -30,7 +25,6 @@ _global_script_classes=[ {
 "path": "res://scenes/player/HurtboxComponent.gd"
 } ]
 _global_script_class_icons={
-"Attack": "",
 "HealthComponent": "",
 "Hitbox": "",
 "HurtboxComponent": ""
