@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/chargedraft.ogg-8552491931d91b694988f232459c2bae.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/player/chargedraft.ogg"
+dest_files=[ "res://.import/chargedraft.ogg-8552491931d91b694988f232459c2bae.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

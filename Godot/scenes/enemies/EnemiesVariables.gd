@@ -91,7 +91,7 @@ class SapSlimeAttackData:
 		set_hitbox_value(AT.LUNGE, 1, HG.HITBOX_SIDE, 0);
 		set_hitbox_value(AT.LUNGE, 1, HG.WIDTH, 12);
 		set_hitbox_value(AT.LUNGE, 1, HG.HEIGHT, 12);
-		set_hitbox_value(AT.LUNGE, 1, HG.DAMAGE, 7);
+		set_hitbox_value(AT.LUNGE, 1, HG.DAMAGE, 1);
 		set_hitbox_value(AT.LUNGE, 1, HG.KNOCKBACK, 300);
 		set_hitbox_value(AT.LUNGE, 1, HG.HITSTUN, 14);
 
@@ -299,7 +299,7 @@ class GobblerAttackData:
 		set_hitbox_value(AT.LUNGE, 1, HG.HITBOX_SIDE, 0);
 		set_hitbox_value(AT.LUNGE, 1, HG.WIDTH, 20);
 		set_hitbox_value(AT.LUNGE, 1, HG.HEIGHT, 12);
-		set_hitbox_value(AT.LUNGE, 1, HG.DAMAGE, 7);
+		set_hitbox_value(AT.LUNGE, 1, HG.DAMAGE, 1);
 		set_hitbox_value(AT.LUNGE, 1, HG.KNOCKBACK, 300);
 		set_hitbox_value(AT.LUNGE, 1, HG.HITSTUN, 14);
 

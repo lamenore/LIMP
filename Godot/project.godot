@@ -41,7 +41,6 @@ config/icon="res://icon.png"
 Globals="*res://Globals.gd"
 PlayerVariables="*res://scenes/player/PlayerVariables.gd"
 EnemiesVariables="*res://scenes/enemies/EnemiesVariables.gd"
-FightMusic="*res://scenes/FightMusic.tscn"
 
 [display]
 

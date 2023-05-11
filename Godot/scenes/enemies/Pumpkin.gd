@@ -3,6 +3,7 @@ extends KinematicBody2D
 signal got_hit
 
 export var entity_type := Globals.ET.PUMPKIN
+export var health := 6 
 
 var PS = Globals.P_PS
 var AT = Globals.P_AT
@@ -166,6 +167,9 @@ func state_update():
 		can_move = false
 		if(state_timer >= hitstun_time):
 			set_state(PS.IDLE)
+	
+	if state == PS.DEAD:
+		queue_free()
 	
 	if(can_move):
 		move()
@@ -336,13 +340,16 @@ func _on_HurtboxComponent_area_entered(area: Hitbox):
 	take_hit(area)
 
 func take_hit(area: Hitbox):
-	$HealthComponent.take_damage(area.damage)
-	var angle = area.parent_id.dir_facing.rotated(area.angle).angle()
-	velocity = Vector2(cos(angle), sin(angle))*area.knockback
-	hitstun_time = area.hitstun
-	set_state(PS.HIT)
-	area.parent_id.enemy_hit(self)
+	if area.is_in_group("hitbox") and state != PS.DEAD:
+		set_state(PS.HIT)
+		$HealthComponent.take_damage(area.damage)
+		var angle = area.parent_id.dir_facing.rotated(area.angle).angle()
+		velocity = Vector2(cos(angle), sin(angle))*area.knockback
+		hitstun_time = area.hitstun
+		area.parent_id.enemy_hit(self, area.type)
+		area.emit_signal("hit_enemy")
+	
 	
 func _on_HealthComponent_zero_health():
-	#queue_free()
+	set_state(PS.DEAD)
 	pass

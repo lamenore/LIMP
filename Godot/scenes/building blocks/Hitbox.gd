@@ -1,6 +1,9 @@
 extends Area2D
 class_name Hitbox
 
+signal lifetime_ended
+signal hit_enemy
+
 var parent_id:KinematicBody2D
 
 var attack_data
@@ -17,6 +20,7 @@ var lifetime:int
 var hitbox_timer := 0
 var knockback:int
 var angle:int
+var type:int = 1
 
 var hitstun:int
 
@@ -48,6 +52,7 @@ func declare():
 	lifetime = get_hitbox_value(attack, hbox_num, HG.LIFETIME)
 	knockback = get_hitbox_value(attack, hbox_num, HG.KNOCKBACK)
 	hitstun = get_hitbox_value(attack, hbox_num, HG.HITSTUN)
+	type = get_hitbox_value(attack, hbox_num, HG.HITBOX_TYPE)
 	var hbox_pos = Vector2(get_hitbox_value(attack, hbox_num, HG.HITBOX_FORW),
 							get_hitbox_value(attack, hbox_num, HG.HITBOX_SIDE))
 	position = hbox_pos.rotated(parent_id.dir_facing.angle())
@@ -59,6 +64,7 @@ func declare():
 # Called every frame.
 func _physics_process(delta):
 	if(hitbox_timer >= lifetime):
+		emit_signal("lifetime_ended")
 		queue_free()
 	hitbox_timer += 1
 

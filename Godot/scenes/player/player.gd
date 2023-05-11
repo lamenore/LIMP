@@ -1,8 +1,12 @@
 extends KinematicBody2D
 
+signal life_changed
+
 var entity_type = Globals.ET.PLAYER
+export var health := 6
 
 var pHitBox = preload("res://scenes/building blocks/Hitbox.tscn")
+var pProj = preload("res://scenes/building blocks/Projectile.tscn")
 
 var PS = Globals.PS
 var AT = Globals.AT
@@ -63,7 +67,8 @@ var special_down:bool = false
 onready var camera = $PlayerCamera
 onready var sprite = $JackSprite
 onready var hitbox_parent = $HitboxParent
-onready var pHurtBox = $HurtboxComponent
+onready var pHurtBox:HurtboxComponent = $HurtboxComponent
+onready var health_component = $HealthComponent
 onready var dust_effect = $DustParticles
 onready var slash_sound:AudioStreamPlayer2D = $SlashSound
 onready var hit_sound:AudioStreamPlayer2D = $HitSound
@@ -72,9 +77,14 @@ onready var step_sounds_ogg:Array = [preload("res://assets/sounds/player/step1.o
 									preload("res://assets/sounds/player/step2.ogg"), 
 									preload("res://assets/sounds/player/step3.ogg")]
 onready var slash_hitfx:PackedScene = preload("res://scenes/building blocks/SlashHitFX.tscn")
+onready var proj_hitfx:PackedScene = preload("res://scenes/building blocks/ProjHitFX.tscn")
 
 var idle_anim_speed := .1
 var run_anim_speed := .2
+
+func _ready():
+	connect("life_changed", get_tree().current_scene.get_node("UI/Life"), "_on_Player_life_changed")
+	emit_signal("life_changed", health)
 
 func _physics_process(delta: float) -> void:
 	_friction(delta)
@@ -143,12 +153,20 @@ func _input(event):
 		special_counter = 7
 		special_down = true
 
+func get_state_name(state: int) -> String:
+	match state:
+		PS.ATTACK:
+			return "Attack"
+		PS.DEAD:
+			return "Dead"
+	return "Not found"
+
 func set_state(new_state: int):
 	prev_prev_state = prev_state
 	prev_state = state
 	state = new_state
 	state_timer = 0
-
+	
 	match new_state:
 		PS.RUN:
 			pass
@@ -158,7 +176,6 @@ func set_state(new_state: int):
 			pass
 		PS.DODGE:
 			invincible = true
-			pHurtBox.set_deferred("monitoring", false)
 			if dir_input != Vector2.ZERO:
 				velocity = dir_input*400.0
 			else:
@@ -189,6 +206,8 @@ func set_attack(new_attack: int):
 	set_state(PS.ATTACK)
 	
 func state_update():
+	invincible = false
+	
 	if !hitstop:
 		state_timer += 1
 	
@@ -196,6 +215,7 @@ func state_update():
 		can_attack = false
 		can_dodge = false
 		can_move = false
+		can_special = false
 		can_let_out_charge = false
 		if(state_timer >= 12):
 			can_let_out_charge = true
@@ -210,10 +230,12 @@ func state_update():
 		can_attack = false
 		can_move = false
 		can_dodge = false
+		can_special = false
 		can_let_out_charge = true
 		
 	if state == PS.IDLE:
 		can_attack = true
+		can_special = true
 		can_move = false
 		can_dodge = true
 		can_let_out_charge = true
@@ -223,6 +245,7 @@ func state_update():
 		
 	if state == PS.RUN:
 		can_attack = true
+		can_special = true
 		can_move = true
 		can_dodge = true
 		can_let_out_charge = true
@@ -238,6 +261,7 @@ func state_update():
 	
 	if state == PS.HIT:
 		can_attack = false
+		can_special = false
 		can_move = false
 		can_dodge = false
 		can_let_out_charge = false
@@ -248,11 +272,16 @@ func state_update():
 	if attack_down:
 		if(charge_counter < charge_time):
 			charge_counter += 1
+			if(charge_counter == charge_time):
+				$ChargeSound.play()
 	else:
 		if charge_counter >= charge_time:
 			if(can_let_out_charge):
 				set_attack(AT.CHARGE)
 				
+	if state == PS.ATTACK:
+		attack_update()
+		
 	if(can_move):
 		move()
 		
@@ -266,19 +295,15 @@ func state_update():
 			set_attack(AT.SWING)
 			
 	if(can_special):
-		if(special_pressed):
+		if(special_pressed and health_component.health > 0):
 			special_counter = 0
 			set_attack(AT.PROJ)
 			
-	if state == PS.ATTACK:
-		attack_update()
 		
 	if(got_hit_invincible_counter > 0):
 		invincible = true
 		got_hit_invincible_counter -= 1
-		
-	pHurtBox.set_deferred("monitoring", !invincible)
-	invincible = false
+	#pHurtBox.set_deferred("collision_layer", set_mask)
 
 func attack_update():
 	if !hitstop:
@@ -293,6 +318,17 @@ func attack_update():
 				turn_around()
 			if(window == 1 and window_timer == get_window_value(attack, window, AG.WINDOW_LENGTH)):
 				slash_sound.play()
+		AT.PROJ:
+			if(window <= 2):
+				turn_around()
+				can_dodge = true
+			if(window == 2):
+				if(!special_down):
+					window += 1
+					window_timer = 0
+			if(window == 3):
+				if(window_timer == 1):
+					health_component.sacrifice_health(1)
 		_:
 			pass
 	
@@ -306,7 +342,7 @@ func attack_update():
 			window += 1
 		window_timer = 0
 		
-		if(old_window == window):
+		if(old_window == window and window >= get_attack_value(attack, AG.NUM_WINDOWS)):
 			window = 0
 			window_timer = 0
 			set_state(PS.IDLE)
@@ -335,28 +371,58 @@ func window_create_hitbox():
 			if(h_win == window):
 				var h_win_t := get_hitbox_value(attack, i+1, HG.WINDOW_CREATION_FRAME)
 				if(h_win_t == window_timer):
-					create_hitbox(attack, i+1, position.x, position.y)
+					create_hitbox(attack, i+1, global_position.x, global_position.y)
 
 func window_sound():
 	pass
 
 func create_hitbox(_attack, hbox_num, _x, _y):
-	var new_hitbox = pHitBox.instance()
-	new_hitbox.attack = attack
-	new_hitbox.hbox_num = hbox_num
-	new_hitbox.parent_id = self
-	new_hitbox.collision_layer = 16
-	new_hitbox.collision_mask = 128
-	new_hitbox.declare()
-	hitbox_parent.add_child(new_hitbox)
+	var hbox_type = get_hitbox_value(_attack, hbox_num, HG.HITBOX_TYPE)
+	if hbox_type == 2:
+		var new_hitbox = pHitBox.instance()
+		new_hitbox.attack = attack
+		new_hitbox.hbox_num = hbox_num
+		new_hitbox.parent_id = self
+		new_hitbox.collision_layer = 16
+		new_hitbox.collision_mask = 128
+		new_hitbox.declare()
+		var new_proj = pProj.instance()
+		
+		#Speed and direction
+		new_proj.speed = get_hitbox_value(_attack, hbox_num, HG.SPEED)
+		new_proj.dir_throw = dir_input if dir_input != Vector2.ZERO else dir_facing
+		
+		#Projectile global position
+		new_proj.global_position = global_position
+		
+		new_hitbox.connect("hit_enemy", new_proj, "_on_Hitbox_hit_enemy")
+		new_hitbox.connect("lifetime_ended", new_proj, "_on_Hitbox_lifetime_ended")
+		new_proj.add_child(new_hitbox)
+		get_tree().current_scene.get_node("YSort").add_child(new_proj)
+	else:	
+		var new_hitbox = pHitBox.instance()
+		new_hitbox.attack = attack
+		new_hitbox.hbox_num = hbox_num
+		new_hitbox.parent_id = self
+		new_hitbox.collision_layer = 16
+		new_hitbox.collision_mask = 128
+		new_hitbox.declare()
+		hitbox_parent.add_child(new_hitbox)
 	pass
 
-func enemy_hit(enemy_id:KinematicBody2D):
-	hit_sound.play()
-	var hfx := slash_hitfx.instance()
-	hfx.global_position = lerp(global_position, enemy_id.global_position, 1)
-	get_tree().get_current_scene().add_child(hfx)
-	camera.camera_shake(1, 5, 0.08)
+func enemy_hit(enemy_id:KinematicBody2D, hbox_type:int):
+	if hbox_type == 2:
+		hit_sound.play()
+		var hfx := proj_hitfx.instance()
+		hfx.global_position = lerp(global_position, enemy_id.global_position, 1)
+		get_tree().get_current_scene().add_child(hfx)
+		camera.camera_shake(1, 5, 0.08)
+	else:
+		hit_sound.play()
+		var hfx := slash_hitfx.instance()
+		hfx.global_position = lerp(global_position, enemy_id.global_position, 1)
+		get_tree().get_current_scene().add_child(hfx)
+		camera.camera_shake(1, 5, 0.08)
 
 func frameFreeze(timeScale, duration):
 	Engine.time_scale = timeScale
@@ -426,23 +492,39 @@ func animation():
 				attack_string = "Swing"
 			elif(attack == AT.CHARGE):
 				attack_string = "Charge"
+			elif(attack == AT.PROJ):
+				attack_string = "Shoot"
 			else:
 				attack_string = "Swing"
 			
 			sprite.animation = dir_string + "_" + attack_string
-			sprite.frame = int(frame_start + window_timer*frames/win_length)
+			if win_length:
+				sprite.frame = int(frame_start + window_timer*frames/win_length)
 
 
 func _on_HurtboxComponent_area_entered(area):
 	take_hit(area)
+	
+func take_hit(area:Area2D):
+	if area.is_in_group("hitbox") and !invincible:
+		health_component.take_damage(area.damage)
+		var dir = area.parent_id.dir_facing.rotated(area.angle).normalized()
+		velocity = dir*area.knockback
+		hitstun_time = area.hitstun
+		set_state(PS.HIT)
+		area.parent_id.enemy_hit(self)
+		$Blinker.start_blinking(self, invinc_time_after_hit)
+		got_hit_invincible_counter = invinc_time_after_hit
+	elif(area.is_in_group("collectable")):
+		area.collect()
+		health_component.gain_health(1)
 
-func take_hit(area: Hitbox):
-	$HealthComponent.take_damage(area.damage)
-	var angle = area.parent_id.dir_facing.rotated(area.angle).angle()
-	velocity = Vector2(cos(angle), sin(angle))*area.knockback
-	print(area.knockback)
-	print("KNOCKBACK!!!!")
-	hitstun_time = area.hitstun
-	set_state(PS.HIT)
-	area.parent_id.enemy_hit(self)
-	got_hit_invincible_counter = invinc_time_after_hit
+
+func _on_HealthComponent_hp_changed(new_hp):
+	set_window_value(AT.SWING, 1, AG.WINDOW_LENGTH, floor(new_hp*2.7))
+	set_hitbox_value(AT.PROJ, 1, HG.DAMAGE, clamp(floor(health - (new_hp-1)), 1, 3) )
+	emit_signal("life_changed", new_hp)
+
+
+func _on_HealthComponent_zero_health():
+	set_state(PS.DEAD)

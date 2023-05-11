@@ -1,0 +1,217 @@
+[gd_scene load_steps=37 format=2]
+
+[ext_resource path="res://scenes/building blocks/Heart.gd" type="Script" id=1]
+[ext_resource path="res://assets/sounds/player/chargecomplete.ogg" type="AudioStream" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+
+[sub_resource type="Gradient" id=37]
+offsets = PoolRealArray( 0, 0.134078, 0.899441 )
+colors = PoolColorArray( 1, 1, 1, 1, 0.724205, 0.489249, 0.923535, 1, 0.918945, 0, 0.43614, 1 )
+
+[sub_resource type="Gradient" id=33]
+interpolation_mode = 1
+colors = PoolColorArray( 1, 1, 1, 1, 0, 0, 0, 0 )
+
+[sub_resource type="GradientTexture2D" id=34]
+flags = 1
+gradient = SubResource( 33 )
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2( 0.5, 0.5 )
+fill_to = Vector2( 0.5, 0.021 )
+
+[sub_resource type="Curve" id=35]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=36]
+offsets = PoolRealArray( 0, 0.134078, 0.899441 )
+colors = PoolColorArray( 1, 1, 1, 1, 0.724205, 0.489249, 0.923535, 1, 0.918945, 0, 0.43614, 1 )
+
+[sub_resource type="StreamTexture" id=2]
+load_path = "res://.import/Heart.png-18111888677bd08f05dc7868fb060cb6.stex"
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = SubResource( 2 )
+region = Rect2( 0, 0, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = SubResource( 2 )
+region = Rect2( 50, 0, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = SubResource( 2 )
+region = Rect2( 100, 0, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = SubResource( 2 )
+region = Rect2( 150, 0, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = SubResource( 2 )
+region = Rect2( 200, 0, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = SubResource( 2 )
+region = Rect2( 250, 0, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = SubResource( 2 )
+region = Rect2( 0, 50, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = SubResource( 2 )
+region = Rect2( 50, 50, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = SubResource( 2 )
+region = Rect2( 100, 50, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = SubResource( 2 )
+region = Rect2( 150, 50, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = SubResource( 2 )
+region = Rect2( 200, 50, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = SubResource( 2 )
+region = Rect2( 250, 50, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = SubResource( 2 )
+region = Rect2( 0, 100, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = SubResource( 2 )
+region = Rect2( 50, 100, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=17]
+atlas = SubResource( 2 )
+region = Rect2( 100, 100, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=18]
+atlas = SubResource( 2 )
+region = Rect2( 150, 100, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=19]
+atlas = SubResource( 2 )
+region = Rect2( 200, 100, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=20]
+atlas = SubResource( 2 )
+region = Rect2( 250, 100, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=21]
+atlas = SubResource( 2 )
+region = Rect2( 0, 150, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = SubResource( 2 )
+region = Rect2( 50, 150, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=23]
+atlas = SubResource( 2 )
+region = Rect2( 100, 150, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=24]
+atlas = SubResource( 2 )
+region = Rect2( 150, 150, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=25]
+atlas = SubResource( 2 )
+region = Rect2( 200, 150, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=26]
+atlas = SubResource( 2 )
+region = Rect2( 250, 150, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=27]
+atlas = SubResource( 2 )
+region = Rect2( 0, 200, 50, 50 )
+
+[sub_resource type="AtlasTexture" id=28]
+atlas = SubResource( 2 )
+region = Rect2( 50, 200, 50, 50 )
+
+[sub_resource type="SpriteFrames" id=29]
+animations = [ {
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 6 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ) ],
+"loop": true,
+"name": "Heart_Big",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 19 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ) ],
+"loop": true,
+"name": "Heart_Small",
+"speed": 15.0
+} ]
+
+[node name="Heart" type="Area2D" groups=["collectable"]]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="TrailParticles" type="CPUParticles2D" parent="."]
+position = Vector2( 0, -2 )
+local_coords = false
+emission_shape = 1
+emission_sphere_radius = 4.44
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 25.15
+initial_velocity_random = 0.78
+radial_accel = -17.37
+radial_accel_random = 0.37
+damping = 9.17
+damping_random = 0.17
+color_ramp = SubResource( 37 )
+
+[node name="ExplosionParticles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 10
+lifetime = 0.31
+one_shot = true
+explosiveness = 1.0
+local_coords = false
+texture = SubResource( 34 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 80.78
+initial_velocity_random = 1.0
+radial_accel = -17.37
+radial_accel_random = 0.37
+damping = 9.17
+damping_random = 0.17
+scale_amount_curve = SubResource( 35 )
+color_ramp = SubResource( 36 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 29 )
+animation = "Heart_Big"
+frame = 5
+speed_scale = 0.726
+playing = true
+offset = Vector2( -1.504, 0 )
+__meta__ = {
+"_aseprite_wizard_config_": {
+"layer": "",
+"o_ex_p": "",
+"o_folder": "res://assets/player_sprites/projectile",
+"o_name": "",
+"only_visible": false,
+"op_exp": true,
+"source": "res://aseprite/player/Heart.aseprite"
+}
+}
+
+[node name="CollectSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 2 )
+bus = "Sound"
+
+[connection signal="finished" from="CollectSound" to="." method="_on_CollectSound_finished"]

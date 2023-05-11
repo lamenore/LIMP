@@ -3,8 +3,11 @@ extends KinematicBody2D
 signal got_hit
 
 export var entity_type := Globals.ET.GOBBLER
+export var health := 4 
 
 var pHitBox = preload("res://scenes/building blocks/Hitbox.tscn")
+
+var noise = OpenSimplexNoise.new()
 
 var PS = Globals.G_PS
 var AT = Globals.G_AT
@@ -22,7 +25,7 @@ var hittable_hitpause_mult:float = 1
 var histun_time := 0
 
 var can_move := true
-export var speed := 100.0
+export var speed := 50.0
 export var can_accelerate := true
 export var acceleration := 35.0
 export var friction := 25.0
@@ -48,8 +51,8 @@ var attack_pressed:bool = false
 var attack_counter = 0
 var attack_down:bool = false
 
-var lunge_dist := 20.0
-var detection_dist := 400.0
+var lunge_dist := 0.0
+var detection_dist := 0.0
 
 onready var sprite = $Sprite
 onready var hitbox_parent = $HitboxParent
@@ -62,6 +65,10 @@ onready var lunge_sounds_ogg:Array = [preload("res://assets/sounds/enemies/slime
 var idle_anim_speed := .1
 var run_anim_speed := .2
 var draw_pos := Vector2()
+
+func _ready():
+	noise.octaves = 1
+	noise.period = 128.0
 
 func _physics_process(delta: float) -> void:
 	_friction(delta)
@@ -97,16 +104,24 @@ func ai_update():
 		player_id = scene_tree.get_nodes_in_group("player")[0]
 	else:
 		player_id = null
+	
+	#if scene_tree.has_group("floating_heart"):
+		#player_id = scene_tree.get_nodes_in_group("floating_heart")[0]
 		
 	if player_id:
+		
 		var dist := player_id.global_position.distance_to(global_position)
-		if dist < detection_dist:
-			var angle = get_angle_to(player_id.global_position)
-			dir_input = Vector2(cos(angle), sin(angle))
+		
 		if dist < lunge_dist:
 			attack_counter = 7
 			attack_pressed = true
-
+		elif dist < detection_dist:
+			var angle = get_angle_to(player_id.global_position)
+			dir_input = Vector2(cos(angle), sin(angle))
+		else:
+			var new_dir := Vector2(noise.get_noise_3d(global_position.x, global_position.y, state_timer),
+									noise.get_noise_3d(global_position.x, global_position.y, state_timer+200))
+			dir_input = new_dir.normalized()
 func _friction(delta) -> void:
 	if can_accelerate and !hitstop:
 		var _fric = friction
@@ -165,6 +180,9 @@ func state_update():
 		can_move = false
 		if(state_timer >= hitstun_time):
 			set_state(PS.IDLE)
+	
+	if state == PS.DEAD:
+		queue_free()
 	
 	if(can_move):
 		move()
@@ -311,13 +329,15 @@ func _on_HurtboxComponent_area_entered(area: Hitbox):
 	take_hit(area)
 
 func take_hit(area: Hitbox):
-	$HealthComponent.take_damage(area.damage)
-	var angle = area.parent_id.dir_facing.rotated(area.angle).angle()
-	velocity = Vector2(cos(angle), sin(angle))*area.knockback
-	hitstun_time = area.hitstun
-	set_state(PS.HIT)
-	area.parent_id.enemy_hit(self)
+	if area.is_in_group("hitbox") and state != PS.DEAD:
+		set_state(PS.HIT)
+		$HealthComponent.take_damage(area.damage)
+		var angle = area.parent_id.dir_facing.rotated(area.angle).angle()
+		velocity = Vector2(cos(angle), sin(angle))*area.knockback
+		hitstun_time = area.hitstun
+		area.parent_id.enemy_hit(self, area.type)
+		area.emit_signal("hit_enemy")
 	
 func _on_HealthComponent_zero_health():
-	#queue_free()
+	set_state(PS.DEAD)
 	pass

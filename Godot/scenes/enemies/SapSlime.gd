@@ -3,6 +3,7 @@ extends KinematicBody2D
 signal got_hit
 
 var entity_type = Globals.ET.SAP_SLIME
+export var health := 2
 
 var pHitBox = preload("res://scenes/building blocks/Hitbox.tscn")
 
@@ -105,13 +106,29 @@ func _friction(delta) -> void:
 			_fric *= get_window_value(attack, window, AG.WINDOW_CUSTOM_FRICTION)
 		velocity = velocity.move_toward(Vector2.ZERO, _fric)
 
+func get_state_name(state: int) -> String:
+	match state:
+		PS.ATTACK:
+			return "Attack"
+		PS.DEAD:
+			return "Dead"
+		PS.IDLE:
+			return "Idle"
+		PS.HIT:
+			return "Hit"
+		PS.WALK:
+			return "Walk"
+	return "Not found"
+
 
 func set_state(new_state: int):
 	prev_prev_state = prev_state
 	prev_state = state
 	state = new_state
 	state_timer = 0
-
+	
+	print(get_state_name(state))
+	
 	match new_state:
 		PS.HIT:
 			pass
@@ -154,6 +171,11 @@ func state_update():
 		if(state_timer >= hitstun_time):
 			set_state(PS.IDLE)
 		can_move = false
+	
+	if state == PS.DEAD:
+		can_attack = false
+		can_move = false
+		queue_free()
 	
 	if(can_move):
 		move()
@@ -284,13 +306,16 @@ func _on_HurtboxComponent_area_entered(area: Hitbox):
 	take_hit(area)
 
 func take_hit(area: Hitbox):
-	$HealthComponent.take_damage(area.damage)
-	var angle = area.parent_id.dir_facing.rotated(area.angle).angle()
-	velocity = Vector2(cos(angle), sin(angle))*area.knockback
-	hitstun_time = area.hitstun
-	set_state(PS.HIT)
-	area.parent_id.enemy_hit(self)
+	if area.is_in_group("hitbox") and state != PS.DEAD:
+		set_state(PS.HIT)
+		$HealthComponent.take_damage(area.damage)
+		var angle = area.parent_id.dir_facing.rotated(area.angle).angle()
+		velocity = Vector2(cos(angle), sin(angle))*area.knockback
+		hitstun_time = area.hitstun
+		area.parent_id.enemy_hit(self, area.type)
+		area.emit_signal("hit_enemy")
 	
 func _on_HealthComponent_zero_health():
-	#queue_free()
+	print("!")
+	set_state(PS.DEAD)
 	pass

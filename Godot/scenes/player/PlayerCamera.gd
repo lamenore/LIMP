@@ -36,6 +36,5 @@ func _reset():
 	offset.y = 0
 
 func _shake():
-	print("trying to shake")
 	offset.x = rand_range(-shake_distance/2, shake_distance/2)
 	offset.y = rand_range(-shake_distance/2, shake_distance/2)
