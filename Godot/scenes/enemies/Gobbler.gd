@@ -55,6 +55,15 @@ func ai_update():
 									noise.get_noise_3d(global_position.x, global_position.y, state_timer+200))
 			dir_input = new_dir.normalized()
 
+func enemy_state_update():
+	if(can_move):
+		move()
+	
+	if(can_attack):
+		if(attack_pressed):
+			attack_counter = 0
+			set_attack(AT.LUNGE)
+
 func enemy_attack_update():
 	match attack:
 		AT.LUNGE:
@@ -67,7 +76,7 @@ func enemy_attack_update():
 			pass
 		_:
 			pass
-
+	
 func animation():
 	match state:
 		PS.IDLE:

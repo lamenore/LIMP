@@ -1,8 +1,9 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://scenes/player/HurtboxComponent.gd" type="Script" id=1]
 [ext_resource path="res://scenes/player/HealthComponent.gd" type="Script" id=2]
 [ext_resource path="res://scenes/player/HitboxParent.gd" type="Script" id=3]
+[ext_resource path="res://scenes/enemies/Cactus.gd" type="Script" id=4]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 4.0
@@ -16,74 +17,114 @@ load_path = "res://.import/exploding_cactus.png-3fd0faf994b5bc72dc28c8cb06872a2c
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = SubResource( 3 )
-region = Rect2( 0, 32, 32, 32 )
+region = Rect2( 128, 51, 32, 51 )
 
 [sub_resource type="AtlasTexture" id=5]
 atlas = SubResource( 3 )
-region = Rect2( 32, 32, 32, 32 )
+region = Rect2( 0, 102, 32, 51 )
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = SubResource( 3 )
-region = Rect2( 64, 32, 32, 32 )
+region = Rect2( 32, 102, 32, 51 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = SubResource( 3 )
-region = Rect2( 96, 32, 32, 32 )
+region = Rect2( 64, 102, 32, 51 )
 
 [sub_resource type="AtlasTexture" id=8]
 atlas = SubResource( 3 )
-region = Rect2( 0, 64, 32, 32 )
+region = Rect2( 96, 102, 32, 51 )
 
 [sub_resource type="AtlasTexture" id=9]
 atlas = SubResource( 3 )
-region = Rect2( 32, 64, 32, 32 )
+region = Rect2( 128, 102, 32, 51 )
 
 [sub_resource type="AtlasTexture" id=10]
 atlas = SubResource( 3 )
-region = Rect2( 64, 64, 32, 32 )
+region = Rect2( 0, 153, 32, 51 )
 
 [sub_resource type="AtlasTexture" id=11]
 atlas = SubResource( 3 )
-region = Rect2( 96, 64, 32, 32 )
+region = Rect2( 32, 153, 32, 51 )
 
 [sub_resource type="AtlasTexture" id=12]
 atlas = SubResource( 3 )
-region = Rect2( 0, 96, 32, 32 )
+region = Rect2( 64, 153, 32, 51 )
 
 [sub_resource type="AtlasTexture" id=13]
 atlas = SubResource( 3 )
-region = Rect2( 0, 0, 32, 32 )
+region = Rect2( 0, 0, 32, 51 )
 
 [sub_resource type="AtlasTexture" id=14]
 atlas = SubResource( 3 )
-region = Rect2( 32, 0, 32, 32 )
+region = Rect2( 32, 0, 32, 51 )
 
 [sub_resource type="AtlasTexture" id=15]
 atlas = SubResource( 3 )
-region = Rect2( 64, 0, 32, 32 )
+region = Rect2( 64, 0, 32, 51 )
 
 [sub_resource type="AtlasTexture" id=16]
 atlas = SubResource( 3 )
-region = Rect2( 96, 0, 32, 32 )
+region = Rect2( 96, 0, 32, 51 )
 
-[sub_resource type="SpriteFrames" id=17]
+[sub_resource type="AtlasTexture" id=17]
+atlas = SubResource( 3 )
+region = Rect2( 128, 0, 32, 51 )
+
+[sub_resource type="AtlasTexture" id=18]
+atlas = SubResource( 3 )
+region = Rect2( 96, 153, 32, 51 )
+
+[sub_resource type="AtlasTexture" id=19]
+atlas = SubResource( 3 )
+region = Rect2( 128, 153, 32, 51 )
+
+[sub_resource type="AtlasTexture" id=20]
+atlas = SubResource( 3 )
+region = Rect2( 0, 204, 32, 51 )
+
+[sub_resource type="AtlasTexture" id=21]
+atlas = SubResource( 3 )
+region = Rect2( 0, 51, 32, 51 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = SubResource( 3 )
+region = Rect2( 32, 51, 32, 51 )
+
+[sub_resource type="AtlasTexture" id=23]
+atlas = SubResource( 3 )
+region = Rect2( 64, 51, 32, 51 )
+
+[sub_resource type="AtlasTexture" id=24]
+atlas = SubResource( 3 )
+region = Rect2( 96, 51, 32, 51 )
+
+[sub_resource type="SpriteFrames" id=25]
 animations = [ {
-"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
+"frames": [ SubResource( 4 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
 "loop": true,
-"name": "he explode",
-"speed": 10.0
+"name": "Death",
+"speed": 17.0
 }, {
-"frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
+"frames": [ SubResource( 13 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 15 ), SubResource( 13 ), SubResource( 16 ), SubResource( 16 ), SubResource( 17 ) ],
 "loop": true,
-"name": "he run",
+"name": "Idle",
+"speed": 17.0
+}, {
+"frames": [ SubResource( 18 ), SubResource( 19 ), SubResource( 20 ) ],
+"loop": true,
+"name": "Run",
+"speed": 17.0
+}, {
+"frames": [ SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ) ],
+"loop": true,
+"name": "Wake",
 "speed": 17.0
 } ]
 
-[node name="Cactus" type="KinematicBody2D"]
-
-[node name="Camera2D" type="Camera2D" parent="."]
-current = true
-smoothing_enabled = true
+[node name="Cactus" type="KinematicBody2D" groups=["cactus", "enemy"]]
+collision_layer = 0
+script = ExtResource( 4 )
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 10 )
@@ -94,6 +135,8 @@ shape = SubResource( 1 )
 script = ExtResource( 2 )
 
 [node name="HurtboxComponent" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 16
 monitorable = false
 script = ExtResource( 1 )
 
@@ -105,16 +148,20 @@ shape = SubResource( 2 )
 script = ExtResource( 3 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 17 )
-animation = "he explode"
+position = Vector2( 0, -8 )
+frames = SubResource( 25 )
+animation = "Death"
 __meta__ = {
 "_aseprite_wizard_config_": {
 "layer": "",
 "o_ex_p": "",
 "o_folder": "res://assets/enemies_sprite/cactus",
 "o_name": "",
-"only_visible": true,
+"only_visible": false,
 "op_exp": false,
 "source": "res://aseprite/enemies/exploding_cactus.aseprite"
 }
 }
+
+[connection signal="zero_health" from="HealthComponent" to="." method="_on_HealthComponent_zero_health"]
+[connection signal="area_entered" from="HurtboxComponent" to="." method="_on_HurtboxComponent_area_entered"]

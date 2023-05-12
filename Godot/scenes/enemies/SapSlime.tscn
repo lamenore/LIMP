@@ -73,8 +73,8 @@ animations = [ {
 "speed": 7.0
 } ]
 
-[node name="SapSlime" type="KinematicBody2D" groups=["enemy"]]
-position = Vector2( 0, -4.954 )
+[node name="SapSlime" type="KinematicBody2D" groups=["enemy", "sap_slime"]]
+position = Vector2( 0, -5 )
 collision_layer = 4
 collision_mask = 5
 script = ExtResource( 4 )

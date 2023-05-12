@@ -37,6 +37,15 @@ func ai_update():
 		if dist < lunge_dist:
 			press_attack()
 
+func enemy_state_update():
+	if(can_move):
+		move()
+	
+	if(can_attack):
+		if(attack_pressed):
+			attack_counter = 0
+			set_attack(AT.LUNGE)
+
 func enemy_attack_update():
 	match attack:
 		AT.LUNGE:

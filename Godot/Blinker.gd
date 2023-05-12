@@ -15,7 +15,6 @@ func start_blinking(object, duration_frames):
 
 
 func _on_BlinkTimer_timeout():
-	print("blinming")
 	blink_object.visible = !blink_object.visible
 
 

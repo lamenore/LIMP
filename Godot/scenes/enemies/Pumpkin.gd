@@ -28,9 +28,6 @@ func move():
 func ai_update():
 	var scene_tree := get_tree()
 	
-	attack_pressed = attack_counter > 0
-	attack_counter -= 1
-	
 	if scene_tree.has_group("player"):
 		player_id = scene_tree.get_nodes_in_group("player")[0]
 	else:
@@ -42,8 +39,16 @@ func ai_update():
 			var angle = get_angle_to(player_id.global_position)
 			dir_input = Vector2(cos(angle), sin(angle))
 		if dist < lunge_dist:
-			attack_counter = 7
-			attack_pressed = true	
+			press_attack()
+
+func enemy_state_update():
+	if(can_move):
+		move()
+	
+	if(can_attack):
+		if(attack_pressed):
+			attack_counter = 0
+			set_attack(AT.LUNGE)
 
 func enemy_attack_update():
 	match attack:

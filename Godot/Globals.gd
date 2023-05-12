@@ -1,7 +1,7 @@
 extends Node
 
 #Entity
-enum ET{PLAYER, SAP_SLIME, PUMPKIN, GOBBLER}
+enum ET{PLAYER, SAP_SLIME, PUMPKIN, GOBBLER, CACTUS}
 
 #Player Enums
 enum PS{IDLE, RUN, FURY, HIT, DEAD, DODGE, ATTACK}
@@ -25,3 +25,7 @@ enum P_AT{LUNGE}
 #Pumpkin enums
 enum G_PS{IDLE, WALK, HIT, ATTACK, DEAD}
 enum G_AT{LUNGE}
+
+#Cactus enums
+enum C_PS{IDLE, WAKE, WALK, HIT, ATTACK, DEAD}
+enum C_AT{LUNGE}

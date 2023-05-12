@@ -31,23 +31,10 @@ func _ready():
 	pass
 
 func declare():
-	match parent_id.entity_type:
-		Globals.ET.SAP_SLIME:
-			PS = Globals.SS_PS
-			AT = Globals.SS_AT
-			attack_data = EnemiesVariables.sap_slime_attack_data
-		Globals.ET.PLAYER:
-			PS = Globals.PS
-			AT = Globals.AT
-			attack_data = PlayerVariables.attack_data
-		Globals.ET.PUMPKIN:
-			PS = Globals.SS_PS
-			AT = Globals.SS_AT
-			attack_data = EnemiesVariables.pumpkin_attack_data
-		Globals.ET.GOBBLER:
-			PS = Globals.G_PS
-			AT = Globals.G_AT
-			attack_data = EnemiesVariables.gobbler_attack_data
+	PS = parent_id.PS
+	AT = parent_id.AT
+	attack_data = parent_id.attack_data
+	
 	damage = get_hitbox_value(attack, hbox_num, HG.DAMAGE)
 	lifetime = get_hitbox_value(attack, hbox_num, HG.LIFETIME)
 	knockback = get_hitbox_value(attack, hbox_num, HG.KNOCKBACK)

@@ -5,24 +5,25 @@ signal got_hit
 
 var player_id:KinematicBody2D
 
-var entity_type = Globals.ET.SAP_SLIME
+var entity_type:int
 export var health := 2
 
 var pHitBox = preload("res://scenes/building blocks/Hitbox.tscn")
 
-var PS = Globals.SS_PS
-var AT = Globals.SS_AT
-var AG = Globals.AG
-var HG = Globals.HG
+var PS:Dictionary
+var AT:Dictionary
+var AG:Dictionary
+var HG:Dictionary
 
-var attack_data: EnemiesVariables.AttackData
+var attack_data
 
 var prev_prev_state:int = 0
 var prev_state:int = 0
-var state:int = PS.IDLE
+var state:int = 0
 var state_timer:int = 0
 var hittable_hitpause_mult:float = 1
 var histun_time := 0
+var knockback_adj := 1
 
 var can_move := true
 export var speed := 100.0
@@ -131,17 +132,22 @@ func set_state(new_state: int):
 	state = new_state
 	state_timer = 0
 	
-	print(get_state_name(state))
+	#print(get_state_name(state))
 	
+	frame_0_set_state(state)
+	
+	if(prev_state == PS.ATTACK):
+		for hbox in hitbox_parent.get_children():
+			hbox.queue_free()
+
+func frame_0_set_state(new_state: int):
 	match new_state:
 		PS.HIT:
 			pass
 		_:
 			pass
 			
-	if(prev_state == PS.ATTACK):
-		for hbox in hitbox_parent.get_children():
-			hbox.queue_free()
+
 func set_attack(new_attack: int):
 	attack = new_attack
 	window = 1
@@ -185,14 +191,6 @@ func state_update():
 		queue_free()
 	
 	enemy_state_update()
-	
-	if(can_move):
-		move()
-	
-	if(can_attack):
-		if(attack_pressed):
-			attack_counter = 0
-			set_attack(AT.LUNGE)
 			
 	if state == PS.ATTACK:
 		attack_update()
@@ -201,10 +199,11 @@ func enemy_state_update():
 	pass
 
 func attack_update():
+	enemy_attack_update()
+	
 	if !hitstop:
 		window_timer += 1
 	
-	enemy_attack_update()
 	
 	var length := get_window_value(attack, window, AG.WINDOW_LENGTH)
 	if(window_timer >= length):
@@ -216,7 +215,7 @@ func attack_update():
 			window += 1
 		window_timer = 0
 		
-		if(old_window == window):
+		if(old_window == window and window >= get_attack_value(attack, AG.NUM_WINDOWS)):
 			window = 0
 			window_timer = 0
 			set_state(PS.IDLE)
@@ -320,7 +319,7 @@ func take_hit(area: Hitbox):
 		set_state(PS.HIT)
 		$HealthComponent.take_damage(area.damage)
 		var angle = area.parent_id.dir_facing.rotated(area.angle).angle()
-		velocity = Vector2(cos(angle), sin(angle))*area.knockback
+		velocity = Vector2(cos(angle), sin(angle))*area.knockback*knockback_adj
 		hitstun_time = area.hitstun
 		area.parent_id.enemy_hit(self, area.type)
 		area.emit_signal("hit_enemy")
