@@ -2,15 +2,16 @@ extends Node
 
 var sap_slime_attack_data : SapSlimeAttackData
 
-class SapSlimeAttackData:
-	var max_attacks = 1
-	var max_indexes = 30
-	var max_windows = 10
+class AttackData:
 	
-	var PS = Globals.SS_PS
-	var AT = Globals.SS_AT
-	var AG = Globals.AG
-	var HG = Globals.HG
+	var max_attacks:int
+	var max_indexes:int
+	var max_windows:int
+	
+	var PS:Dictionary
+	var AT:Dictionary
+	var AG:Dictionary
+	var HG:Dictionary
 	
 	var attack_data := []
 	
@@ -42,8 +43,20 @@ class SapSlimeAttackData:
 	
 	func get_hitbox_value(attack: int, window: int, index: int) -> float:
 		return hitbox_data[index + window*max_indexes + attack*max_indexes*max_windows]
+
+class SapSlimeAttackData extends AttackData:
 	
 	func _init():
+		
+		PS = Globals.SS_PS
+		AT = Globals.SS_AT
+		AG = Globals.AG
+		HG = Globals.HG
+		
+		max_attacks = 1
+		max_indexes = 30
+		max_windows = 10
+		
 		attack_data.resize(max_indexes*max_attacks)
 		attack_data.fill(0)
 		window_data.resize(max_indexes*max_attacks*max_windows)
@@ -97,48 +110,19 @@ class SapSlimeAttackData:
 
 var pumpkin_attack_data : PumpkinAttackData
 
-class PumpkinAttackData:
-	var max_attacks = 1
-	var max_indexes = 30
-	var max_windows = 10
-	
-	var PS = Globals.P_PS
-	var AT = Globals.P_AT
-	var AG = Globals.AG
-	var HG = Globals.HG
-	
-	var attack_data := []
-	
-	var window_data := []
-	
-	var hitbox_data := []
-	var hitbox_amount := []
-	
-	func set_attack_value(attack: int, index: int, value: float):
-		attack_data[index + attack*max_indexes] = value
-	
-	func get_attack_value(attack: int, index: int) -> float:
-		return attack_data[index + attack*max_indexes]
-	
-	func set_window_value(attack: int, window: int, index: int, value: float):
-		window_data[index + window*max_indexes + attack*max_indexes*max_windows] = value
-	
-	func get_window_value(attack: int, window: int, index: int) -> float:
-		return window_data[index + window*max_indexes + attack*max_indexes*max_windows]
-	
-	func set_num_hitboxes(attack: int, value: float):
-		hitbox_amount[attack] = value
+class PumpkinAttackData extends AttackData:
 
-	func get_num_hitboxes(attack: int) -> float:
-		return hitbox_amount[attack]
-
-	func set_hitbox_value(attack: int, window: int, index: int, value: float):
-		hitbox_data[index + window*max_indexes + attack*max_indexes*max_windows] = value
-	
-	func get_hitbox_value(attack: int, window: int, index: int) -> float:
-		return hitbox_data[index + window*max_indexes + attack*max_indexes*max_windows]
-	
 	func _init():
+		
+		max_attacks = 1
+		max_indexes = 30
+		max_windows = 10
+		
+		PS = Globals.P_PS
+		AT = Globals.P_AT
+		AG = Globals.AG
+		HG = Globals.HG
+		
 		attack_data.resize(max_indexes*max_attacks)
 		attack_data.fill(0)
 		window_data.resize(max_indexes*max_attacks*max_windows)
@@ -212,48 +196,19 @@ class PumpkinAttackData:
 
 var gobbler_attack_data : GobblerAttackData
 
-class GobblerAttackData:
-	var max_attacks = 1
-	var max_indexes = 30
-	var max_windows = 10
-	
-	var PS = Globals.P_PS
-	var AT = Globals.P_AT
-	var AG = Globals.AG
-	var HG = Globals.HG
-	
-	var attack_data := []
-	
-	var window_data := []
-	
-	var hitbox_data := []
-	var hitbox_amount := []
-	
-	func set_attack_value(attack: int, index: int, value: float):
-		attack_data[index + attack*max_indexes] = value
-	
-	func get_attack_value(attack: int, index: int) -> float:
-		return attack_data[index + attack*max_indexes]
-	
-	func set_window_value(attack: int, window: int, index: int, value: float):
-		window_data[index + window*max_indexes + attack*max_indexes*max_windows] = value
-	
-	func get_window_value(attack: int, window: int, index: int) -> float:
-		return window_data[index + window*max_indexes + attack*max_indexes*max_windows]
-	
-	func set_num_hitboxes(attack: int, value: float):
-		hitbox_amount[attack] = value
+class GobblerAttackData extends AttackData:
 
-	func get_num_hitboxes(attack: int) -> float:
-		return hitbox_amount[attack]
-
-	func set_hitbox_value(attack: int, window: int, index: int, value: float):
-		hitbox_data[index + window*max_indexes + attack*max_indexes*max_windows] = value
-	
-	func get_hitbox_value(attack: int, window: int, index: int) -> float:
-		return hitbox_data[index + window*max_indexes + attack*max_indexes*max_windows]
-	
 	func _init():
+		
+		max_attacks = 1
+		max_indexes = 30
+		max_windows = 10
+		
+		PS = Globals.P_PS
+		AT = Globals.P_AT
+		AG = Globals.AG
+		HG = Globals.HG
+		
 		attack_data.resize(max_indexes*max_attacks)
 		attack_data.fill(0)
 		window_data.resize(max_indexes*max_attacks*max_windows)

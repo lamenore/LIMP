@@ -1,90 +1,26 @@
-extends KinematicBody2D
+extends Enemy
 
-signal got_hit
-
-export var entity_type := Globals.ET.PUMPKIN
-export var health := 6 
-
-var PS = Globals.P_PS
-var AT = Globals.P_AT
-var AG = Globals.AG
-var HG = Globals.HG
-
-var attack_data: EnemiesVariables.PumpkinAttackData = EnemiesVariables.pumpkin_attack_data
-
-var pHitBox = preload("res://scenes/building blocks/Hitbox.tscn")
-
-var player_id:KinematicBody2D
-
-var prev_prev_state:int = 0
-var prev_state:int = 0
-var state:int = PS.IDLE
-var state_timer:int = 0
-var hittable_hitpause_mult:float = 1
-var histun_time := 0
-
-var can_move := true
-export var speed := 100.0
-export var can_accelerate := true
-export var acceleration := 35.0
-export var friction := 25.0
-
-var attack:int = 0
-var window:int = 0
-var window_timer:int = 0
-
-var velocity := Vector2.ZERO
-var dir_input := Vector2.ZERO
-var dir_facing := Vector2.DOWN
-
-var hitstop:int = 0
-var hitstop_full:int = 0
-var hitstun_time:int = 0
-var invincible := false
-var dodge_invincibility_time := 25
-var got_hit_invincible_counter := 0
-var invinc_time_after_hit := 60
-
-var can_attack:bool = true
-var attack_pressed:bool = false
-var attack_counter = 0
-var attack_down:bool = false
-
-var lunge_dist := 80.0
-var detection_dist := 400.0
-
-onready var sprite = $Sprite
-onready var hitbox_parent = $HitboxParent
-onready var pHurtBox = $HurtboxComponent
-onready var lunge_player:AudioStreamPlayer2D = $LungePlayer
-onready var lunge_sounds_ogg:Array = [preload("res://assets/sounds/enemies/slime/slime_lunge1.ogg"), 
-									preload("res://assets/sounds/enemies/slime/slime_lunge2.ogg"), 
-									preload("res://assets/sounds/enemies/slime/slime_lunge3.ogg")]
-
-var idle_anim_speed := .1
-var run_anim_speed := .2
-var draw_pos := Vector2()
-
-func _physics_process(delta: float) -> void:
-	_friction(delta)
-	ai_update()
+func _ready():
+	entity_type = Globals.ET.PUMPKIN
 	
-	if(dir_input != Vector2.ZERO):
-		
-		var angle = round(rad2deg(dir_input.angle()))
-		if(angle >= 45.0 and angle <= 135.0):
-			dir_facing = Vector2.DOWN
-		elif(angle <= -45.0 and angle >= -135.0):
-			dir_facing = Vector2.UP
-		elif(abs(angle) <= 45.0):
-			dir_facing = Vector2.RIGHT
-		else:
-			dir_facing = Vector2.LEFT
-	state_update()
-	animation()
-	sprite_update()
-	#print(velocity)
-	velocity = move_and_slide(velocity)
+	health = 6 
+
+	PS = Globals.P_PS
+	AT = Globals.P_AT
+	AG = Globals.AG
+	HG = Globals.HG
+
+	attack_data = EnemiesVariables.pumpkin_attack_data
+	
+	lunge_dist = 80.0
+	detection_dist = 400.0
+	
+	idle_anim_speed = .1
+	run_anim_speed = .2
+	
+	speed = 100.0
+	acceleration = 35.0
+	friction = 25.0
 	
 func move():
 	velocity = dir_input * speed
@@ -107,92 +43,9 @@ func ai_update():
 			dir_input = Vector2(cos(angle), sin(angle))
 		if dist < lunge_dist:
 			attack_counter = 7
-			attack_pressed = true
+			attack_pressed = true	
 
-func _friction(delta) -> void:
-	if can_accelerate and !hitstop:
-		var _fric = friction
-		if(state == PS.ATTACK and get_window_value(attack, window, AG.WINDOW_HAS_CUSTOM_FRICTION)):
-			_fric *= get_window_value(attack, window, AG.WINDOW_CUSTOM_FRICTION)
-		velocity = velocity.move_toward(Vector2.ZERO, _fric)
-
-
-func set_state(new_state: int):
-	prev_prev_state = prev_state
-	prev_state = state
-	state = new_state
-	state_timer = 0
-
-	match new_state:
-		PS.HIT:
-			pass
-		_:
-			pass
-			
-	if(prev_state == PS.ATTACK):
-		for hbox in hitbox_parent.get_children():
-			hbox.queue_free()
-func set_attack(new_attack: int):
-	attack = new_attack
-	window = 1
-	window_timer = 0
-	
-	window_speed()
-	
-	set_state(PS.ATTACK)
-	
-func state_update():
-	draw_pos = Vector2.ZERO
-	
-	if !hitstop:
-		state_timer += 1
-	
-	if state == PS.ATTACK:
-		can_attack = false
-		can_move = false
-		
-	if state == PS.IDLE:
-		can_attack = true
-		if(dir_input != Vector2.ZERO):
-			set_state(PS.WALK)
-		
-	if state == PS.WALK:
-		can_attack = true
-		can_move = true
-		if(dir_input == Vector2.ZERO):
-			set_state(PS.IDLE)
-	
-	if state == PS.HIT:
-		can_attack = false
-		can_move = false
-		if(state_timer >= hitstun_time):
-			set_state(PS.IDLE)
-	
-	if state == PS.DEAD:
-		queue_free()
-	
-	if(can_move):
-		move()
-	
-	if(can_attack):
-		if(attack_pressed):
-			attack_counter = 0
-			set_attack(AT.LUNGE)
-			
-	if state == PS.ATTACK:
-		attack_update()
-	
-	if(got_hit_invincible_counter > 0):
-		invincible = true
-		got_hit_invincible_counter -= 1
-		
-	pHurtBox.set_deferred("monitoring", !invincible)
-	invincible = false
-	
-func attack_update():
-	if !hitstop:
-		window_timer += 1
-	
+func enemy_attack_update():
 	match attack:
 		AT.LUNGE:
 			if window == 1:
@@ -218,26 +71,6 @@ func attack_update():
 			pass
 		_:
 			pass
-	
-	var length := get_window_value(attack, window, AG.WINDOW_LENGTH)
-	if(window_timer >= length):
-		var old_window := window
-		var wg := get_window_value(attack, window, AG.WINDOW_GOTO)
-		if(wg > 0):
-			window = wg
-		elif(window < get_attack_value(attack, AG.NUM_WINDOWS)):
-			window += 1
-		window_timer = 0
-		
-		if(old_window == window):
-			window = 0
-			window_timer = 0
-			set_state(PS.IDLE)
-	
-	if(!hitstop):
-		window_speed()
-		window_create_hitbox()
-		window_sound()
 
 func window_speed():
 	match int(get_window_value(attack, window, AG.WINDOW_SPEED_TYPE)):
