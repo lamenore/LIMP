@@ -1,6 +1,6 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
-[ext_resource path="res://scenes/building blocks/Projectile.gd" type="Script" id=1]
+[ext_resource path="res://scenes/building blocks/EnemyProjectile.gd" type="Script" id=1]
 [ext_resource path="res://scenes/player/HurtboxComponent.gd" type="Script" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
@@ -11,57 +11,48 @@ extents = Vector2( 9, 6 )
 
 [sub_resource type="Gradient" id=31]
 offsets = PoolRealArray( 0, 0.134078, 0.899441 )
-colors = PoolColorArray( 1, 1, 1, 1, 0.920654, 0.59375, 1, 1, 0.800781, 0.0500488, 0.630693, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 0.301961, 0.341176, 0.290196, 1, 0.537255, 0.635294, 0.313726, 1 )
 
 [sub_resource type="StreamTexture" id=33]
-load_path = "res://.import/Jack Projectiles.png-2924c42e806d628040586e4abd971ad7.stex"
+load_path = "res://.import/Enemy_Projectiles.png-a880e7d7fb8e57453494833c9a66148d.stex"
 
 [sub_resource type="AtlasTexture" id=34]
 atlas = SubResource( 33 )
-region = Rect2( 50, 50, 50, 50 )
+region = Rect2( 0, 0, 50, 50 )
 
 [sub_resource type="AtlasTexture" id=35]
 atlas = SubResource( 33 )
-region = Rect2( 100, 50, 50, 50 )
+region = Rect2( 50, 0, 50, 50 )
 
 [sub_resource type="AtlasTexture" id=36]
 atlas = SubResource( 33 )
-region = Rect2( 0, 100, 50, 50 )
+region = Rect2( 100, 0, 50, 50 )
 
 [sub_resource type="AtlasTexture" id=37]
 atlas = SubResource( 33 )
-region = Rect2( 50, 100, 50, 50 )
+region = Rect2( 0, 50, 50, 50 )
 
 [sub_resource type="AtlasTexture" id=38]
 atlas = SubResource( 33 )
-region = Rect2( 100, 100, 50, 50 )
+region = Rect2( 50, 50, 50, 50 )
 
 [sub_resource type="AtlasTexture" id=39]
 atlas = SubResource( 33 )
-region = Rect2( 0, 0, 50, 50 )
+region = Rect2( 100, 50, 50, 50 )
 
 [sub_resource type="AtlasTexture" id=40]
 atlas = SubResource( 33 )
-region = Rect2( 50, 0, 50, 50 )
+region = Rect2( 0, 100, 50, 50 )
 
 [sub_resource type="AtlasTexture" id=41]
 atlas = SubResource( 33 )
-region = Rect2( 100, 0, 50, 50 )
+region = Rect2( 50, 100, 50, 50 )
 
-[sub_resource type="AtlasTexture" id=42]
-atlas = SubResource( 33 )
-region = Rect2( 0, 50, 50, 50 )
-
-[sub_resource type="SpriteFrames" id=43]
+[sub_resource type="SpriteFrames" id=42]
 animations = [ {
-"frames": [ SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ) ],
+"frames": [ SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ) ],
 "loop": true,
-"name": "Hit",
-"speed": 15.0
-}, {
-"frames": [ SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ) ],
-"loop": true,
-"name": "Projectile",
+"name": "Bone",
 "speed": 15.0
 } ]
 
@@ -100,21 +91,20 @@ color_ramp = SubResource( 31 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -1 )
-frames = SubResource( 43 )
-animation = "Projectile"
+frames = SubResource( 42 )
+animation = "Bone"
 frame = 2
 speed_scale = 0.797
 playing = true
-offset = Vector2( -1.5, 0 )
 __meta__ = {
 "_aseprite_wizard_config_": {
 "layer": "",
 "o_ex_p": "",
-"o_folder": "res://assets/player_sprites/projectile",
+"o_folder": "res://assets/enemies_sprite/enemies_projectiles",
 "o_name": "",
 "only_visible": false,
-"op_exp": false,
-"source": "res://aseprite/player/Jack Projectiles.aseprite"
+"op_exp": true,
+"source": "res://aseprite/enemies/Enemy_Projectiles.aseprite"
 }
 }
 

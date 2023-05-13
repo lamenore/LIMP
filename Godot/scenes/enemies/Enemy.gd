@@ -9,6 +9,7 @@ var entity_type:int
 export var health := 2
 
 var pHitBox = preload("res://scenes/building blocks/Hitbox.tscn")
+var pProj = preload("res://scenes/building blocks/EnemyProjectile.tscn")
 
 var PS:Dictionary
 var AT:Dictionary
@@ -253,17 +254,42 @@ func window_sound():
 	pass
 
 func create_hitbox(_attack, hbox_num, _x, _y):
-	var new_hitbox = pHitBox.instance()
-	new_hitbox.attack = attack
-	new_hitbox.hbox_num = hbox_num
-	new_hitbox.parent_id = self
-	new_hitbox.collision_layer = 64
-	new_hitbox.collision_mask = 32
-	new_hitbox.declare()
-	hitbox_parent.add_child(new_hitbox)
+	var hbox_type = get_hitbox_value(_attack, hbox_num, HG.HITBOX_TYPE)
+	if hbox_type == 2:
+		var new_hitbox = pHitBox.instance()
+		new_hitbox.attack = attack
+		new_hitbox.hbox_num = hbox_num
+		new_hitbox.parent_id = self
+		new_hitbox.collision_layer = 64
+		new_hitbox.collision_mask = 32
+		new_hitbox.declare()
+		
+		var new_proj = pProj.instance()
+		new_proj.entity_type = entity_type
+		
+		#Speed and direction
+		new_proj.speed = get_hitbox_value(_attack, hbox_num, HG.SPEED)
+		new_proj.dir_throw = dir_input if dir_input != Vector2.ZERO else dir_facing
+		
+		#Projectile global position
+		new_proj.global_position = global_position
+		
+		new_hitbox.connect("hit_enemy", new_proj, "_on_Hitbox_hit_enemy")
+		new_hitbox.connect("lifetime_ended", new_proj, "_on_Hitbox_lifetime_ended")
+		new_proj.add_child(new_hitbox)
+		get_tree().current_scene.get_node("YSort").add_child(new_proj)
+	else:	
+		var new_hitbox = pHitBox.instance()
+		new_hitbox.attack = attack
+		new_hitbox.hbox_num = hbox_num
+		new_hitbox.parent_id = self
+		new_hitbox.collision_layer = 64
+		new_hitbox.collision_mask = 32
+		new_hitbox.declare()
+		hitbox_parent.add_child(new_hitbox)
 	pass
 
-func enemy_hit(enemy_id:KinematicBody2D):
+func enemy_hit(enemy_id:KinematicBody2D, area:int):
 	#hit_sound.play()
 	#var hfx := slash_hitfx.instance()
 	#enemy_id.add_child(hfx)

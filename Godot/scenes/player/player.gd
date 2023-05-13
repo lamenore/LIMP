@@ -427,9 +427,9 @@ func enemy_hit(enemy_id:KinematicBody2D, hbox_type:int):
 func frameFreeze(timeScale, duration):
 	Engine.time_scale = timeScale
 	#hitstop = true
-	Engine.iterations_per_second = 60*timeScale
+	#Engine.iterations_per_second = 60*timeScale
 	yield(get_tree().create_timer(duration * timeScale), "timeout")
-	Engine.iterations_per_second = 60
+	#Engine.iterations_per_second = 60
 	#hitstop = false
 	Engine.time_scale = 1.0
 
@@ -512,7 +512,7 @@ func take_hit(area:Area2D):
 		velocity = dir*area.knockback
 		hitstun_time = area.hitstun
 		set_state(PS.HIT)
-		area.parent_id.enemy_hit(self)
+		area.parent_id.enemy_hit(self, area.type)
 		$Blinker.start_blinking(self, invinc_time_after_hit)
 		got_hit_invincible_counter = invinc_time_after_hit
 	elif(area.is_in_group("collectable")):

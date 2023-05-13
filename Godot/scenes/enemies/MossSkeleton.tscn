@@ -221,7 +221,7 @@ animations = [ {
 "speed": 17.0
 } ]
 
-[node name="MossSkeleton" type="KinematicBody2D" groups=["enemy", "sap_slime"]]
+[node name="MossSkeleton" type="KinematicBody2D" groups=["enemy", "moss_skeleton"]]
 position = Vector2( 0, -5 )
 collision_layer = 4
 collision_mask = 5
