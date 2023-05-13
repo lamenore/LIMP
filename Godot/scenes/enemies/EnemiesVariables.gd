@@ -322,8 +322,125 @@ class CactusAttackData extends AttackData:
 		set_hitbox_value(AT.LUNGE, 1, HG.KNOCKBACK, 300);
 		set_hitbox_value(AT.LUNGE, 1, HG.HITSTUN, 14);
 
+var moss_ske_attack_data : MossSkeletonAttackData
+
+class MossSkeletonAttackData extends AttackData:
+
+	func _init():
+		
+		max_attacks = 1
+		max_indexes = 30
+		max_windows = 10
+		
+		PS = Globals.MS_PS
+		AT = Globals.MS_AT
+		AG = Globals.AG
+		HG = Globals.HG
+		
+		attack_data.resize(max_indexes*max_attacks)
+		attack_data.fill(0)
+		window_data.resize(max_indexes*max_attacks*max_windows)
+		window_data.fill(0)
+		hitbox_data.resize(max_indexes*max_attacks*max_windows)
+		hitbox_data.fill(0)
+		hitbox_amount.resize(max_attacks)
+		hitbox_amount.fill(0)
+		load_explode_attack()
+		
+	
+	func load_explode_attack():
+		set_attack_value(AT.SPIN, AG.NUM_WINDOWS, 3);
+		
+		set_window_value(AT.SPIN, 1, AG.WINDOW_TYPE, 1);
+		set_window_value(AT.SPIN, 1, AG.WINDOW_HAS_CUSTOM_FRICTION, 1);
+		set_window_value(AT.SPIN, 1, AG.WINDOW_CUSTOM_FRICTION, 1);
+		set_window_value(AT.SPIN, 1, AG.WINDOW_LENGTH, 30);
+		set_window_value(AT.SPIN, 1, AG.WINDOW_ANIM_FRAMES, 3);
+		set_window_value(AT.SPIN, 1, AG.WINDOW_HAS_SFX, 1);
+		set_window_value(AT.SPIN, 1, AG.WINDOW_SFX, 0);
+		set_window_value(AT.SPIN, 1, AG.WINDOW_SFX_FRAME, 2);
+
+		set_window_value(AT.SPIN, 2, AG.WINDOW_TYPE, 1);
+		set_window_value(AT.SPIN, 2, AG.WINDOW_HAS_CUSTOM_FRICTION, 1);
+		set_window_value(AT.SPIN, 2, AG.WINDOW_CUSTOM_FRICTION, 1);
+		set_window_value(AT.SPIN, 2, AG.WINDOW_LENGTH, 15);
+		set_window_value(AT.SPIN, 2, AG.WINDOW_SPEED_TYPE, 0);
+		set_window_value(AT.SPIN, 2, AG.WINDOW_SPEED, 0.0);
+		set_window_value(AT.SPIN, 2, AG.WINDOW_ANIM_FRAMES, 5);
+		set_window_value(AT.SPIN, 2, AG.WINDOW_ANIM_FRAME_START, 3);
+
+		set_window_value(AT.SPIN, 3, AG.WINDOW_TYPE, 1);
+		set_window_value(AT.SPIN, 3, AG.WINDOW_HAS_CUSTOM_FRICTION, 1);
+		set_window_value(AT.SPIN, 3, AG.WINDOW_CUSTOM_FRICTION, 1);
+		set_window_value(AT.SPIN, 3, AG.WINDOW_LENGTH, 15);
+		set_window_value(AT.SPIN, 3, AG.WINDOW_ANIM_FRAMES, 3);
+		set_window_value(AT.SPIN, 3, AG.WINDOW_ANIM_FRAME_START, 8);
+		
+		set_num_hitboxes(AT.SPIN, 5)
+		
+		set_hitbox_value(AT.SPIN, 1, HG.WINDOW, 2);
+		set_hitbox_value(AT.SPIN, 1, HG.LIFETIME, 3);
+		set_hitbox_value(AT.SPIN, 1, HG.HITBOX_FORW, 14);
+		set_hitbox_value(AT.SPIN, 1, HG.HITBOX_SIDE, 0);
+		set_hitbox_value(AT.SPIN, 1, HG.WIDTH, 18);
+		set_hitbox_value(AT.SPIN, 1, HG.HEIGHT, 18);
+		set_hitbox_value(AT.SPIN, 1, HG.DAMAGE, 7);
+		set_hitbox_value(AT.SPIN, 1, HG.ANGLE, 0);
+		set_hitbox_value(AT.SPIN, 1, HG.KNOCKBACK, 400.0);
+		set_hitbox_value(AT.SPIN, 1, HG.HITSTUN, 25);
+		
+		set_hitbox_value(AT.SPIN, 2, HG.WINDOW, 2);
+		set_hitbox_value(AT.SPIN, 2, HG.WINDOW_CREATION_FRAME, 3);
+		set_hitbox_value(AT.SPIN, 2, HG.LIFETIME, 3);
+		set_hitbox_value(AT.SPIN, 2, HG.HITBOX_FORW, 0);
+		set_hitbox_value(AT.SPIN, 2, HG.HITBOX_SIDE, -14);
+		set_hitbox_value(AT.SPIN, 2, HG.WIDTH, 18);
+		set_hitbox_value(AT.SPIN, 2, HG.HEIGHT, 18);
+		set_hitbox_value(AT.SPIN, 2, HG.DAMAGE, 7);
+		set_hitbox_value(AT.SPIN, 2, HG.ANGLE, -90);
+		set_hitbox_value(AT.SPIN, 2, HG.KNOCKBACK, 400.0);
+		set_hitbox_value(AT.SPIN, 2, HG.HITSTUN, 25);
+		
+		set_hitbox_value(AT.SPIN, 3, HG.WINDOW, 2);
+		set_hitbox_value(AT.SPIN, 3, HG.WINDOW_CREATION_FRAME, 6);
+		set_hitbox_value(AT.SPIN, 3, HG.LIFETIME, 3);
+		set_hitbox_value(AT.SPIN, 3, HG.HITBOX_FORW, -14);
+		set_hitbox_value(AT.SPIN, 3, HG.HITBOX_SIDE, 0);
+		set_hitbox_value(AT.SPIN, 3, HG.WIDTH, 18);
+		set_hitbox_value(AT.SPIN, 3, HG.HEIGHT, 18);
+		set_hitbox_value(AT.SPIN, 3, HG.DAMAGE, 7);
+		set_hitbox_value(AT.SPIN, 3, HG.ANGLE, 180);
+		set_hitbox_value(AT.SPIN, 3, HG.KNOCKBACK, 400.0);
+		set_hitbox_value(AT.SPIN, 3, HG.HITSTUN, 25);
+		
+		set_hitbox_value(AT.SPIN, 4, HG.WINDOW, 2);
+		set_hitbox_value(AT.SPIN, 4, HG.WINDOW_CREATION_FRAME, 9);
+		set_hitbox_value(AT.SPIN, 4, HG.LIFETIME, 3);
+		set_hitbox_value(AT.SPIN, 4, HG.HITBOX_FORW, 0);
+		set_hitbox_value(AT.SPIN, 4, HG.HITBOX_SIDE, 14);
+		set_hitbox_value(AT.SPIN, 4, HG.WIDTH, 18);
+		set_hitbox_value(AT.SPIN, 4, HG.HEIGHT, 18);
+		set_hitbox_value(AT.SPIN, 4, HG.DAMAGE, 7);
+		set_hitbox_value(AT.SPIN, 4, HG.ANGLE, 90);
+		set_hitbox_value(AT.SPIN, 4, HG.KNOCKBACK, 400.0);
+		set_hitbox_value(AT.SPIN, 4, HG.HITSTUN, 25);
+		
+		set_hitbox_value(AT.SPIN, 5, HG.WINDOW, 2);
+		set_hitbox_value(AT.SPIN, 5, HG.WINDOW_CREATION_FRAME, 12);
+		set_hitbox_value(AT.SPIN, 5, HG.LIFETIME, 3);
+		set_hitbox_value(AT.SPIN, 5, HG.HITBOX_FORW, 14);
+		set_hitbox_value(AT.SPIN, 5, HG.HITBOX_SIDE, 0);
+		set_hitbox_value(AT.SPIN, 5, HG.WIDTH, 18);
+		set_hitbox_value(AT.SPIN, 5, HG.HEIGHT, 18);
+		set_hitbox_value(AT.SPIN, 5, HG.DAMAGE, 1);
+		set_hitbox_value(AT.SPIN, 5, HG.ANGLE, 0);
+		set_hitbox_value(AT.SPIN, 5, HG.KNOCKBACK, 400.0);
+		set_hitbox_value(AT.SPIN, 5, HG.HITSTUN, 25);
+
+
 func _init():
 	sap_slime_attack_data = SapSlimeAttackData.new()
 	pumpkin_attack_data = PumpkinAttackData.new()
 	gobbler_attack_data = GobblerAttackData.new()
 	cactus_attack_data = CactusAttackData.new()
+	moss_ske_attack_data = MossSkeletonAttackData.new()

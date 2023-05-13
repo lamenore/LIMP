@@ -521,8 +521,11 @@ func take_hit(area:Area2D):
 
 
 func _on_HealthComponent_hp_changed(new_hp):
-	set_window_value(AT.SWING, 1, AG.WINDOW_LENGTH, floor(new_hp*2.7))
-	set_hitbox_value(AT.PROJ, 1, HG.DAMAGE, clamp(floor(health - (new_hp-1)), 1, 3) )
+	var speed_modifier = clamp(new_hp/health, 0, 1)
+	print(speed_modifier)
+	set_window_value(AT.SWING, 1, AG.WINDOW_LENGTH, max(floor(speed_modifier*15) , 7))
+	set_window_value(AT.SWING, 3, AG.WINDOW_LENGTH, 10 + floor(speed_modifier*5))
+	set_hitbox_value(AT.PROJ, 1, HG.DAMAGE, 1 + 3*(1 - speed_modifier) )
 	emit_signal("life_changed", new_hp)
 
 
