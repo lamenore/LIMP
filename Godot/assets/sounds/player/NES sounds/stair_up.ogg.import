@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/stair_up.ogg-d44137bb31dae6fd2d11d1a1388fc61a.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/player/NES sounds/stair_up.ogg"
+dest_files=[ "res://.import/stair_up.ogg-d44137bb31dae6fd2d11d1a1388fc61a.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

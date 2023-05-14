@@ -6,6 +6,7 @@ var velocity := Vector2.ZERO
 var dir_throw := Vector2.ZERO
 var health := 1
 var entity_type: int = Globals.ET.SKELETON
+var proj_hitfx = preload("res://scenes/building blocks/EnemyProjHitFX.tscn")
 onready var hitbox = $Hitbox
 
 # Called when the node enters the scene tree for the first time.
@@ -43,4 +44,7 @@ func _on_Hitbox_lifetime_ended():
 
 
 func _on_Hitbox_hit_enemy():
+	var hfx = proj_hitfx.instance()
+	hfx.global_position = global_position
+	get_tree().get_current_scene().add_child(hfx)
 	die()

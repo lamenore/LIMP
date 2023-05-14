@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/coin.ogg-5affab0ce3d8083d50aaa5f21042fa8e.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/player/NES sounds/coin.ogg"
+dest_files=[ "res://.import/coin.ogg-5affab0ce3d8083d50aaa5f21042fa8e.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

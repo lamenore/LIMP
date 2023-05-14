@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/cut.ogg-47efe938bdbb4a9c62ae91caff0431fa.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/player/NES sounds/cut.ogg"
+dest_files=[ "res://.import/cut.ogg-47efe938bdbb4a9c62ae91caff0431fa.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

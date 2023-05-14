@@ -1,0 +1,309 @@
+[gd_scene load_steps=59 format=2]
+
+[ext_resource path="res://scenes/building blocks/EnemyDieFX.gd" type="Script" id=1]
+
+[sub_resource type="StreamTexture" id=1]
+load_path = "res://.import/Boom.png-57f2608c23da87a96ca7ce61a8c4ffb9.stex"
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = SubResource( 1 )
+region = Rect2( 595, 380, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = SubResource( 1 )
+region = Rect2( 0, 456, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = SubResource( 1 )
+region = Rect2( 85, 456, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = SubResource( 1 )
+region = Rect2( 170, 456, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = SubResource( 1 )
+region = Rect2( 255, 456, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = SubResource( 1 )
+region = Rect2( 340, 456, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = SubResource( 1 )
+region = Rect2( 425, 456, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = SubResource( 1 )
+region = Rect2( 510, 456, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = SubResource( 1 )
+region = Rect2( 0, 0, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = SubResource( 1 )
+region = Rect2( 85, 0, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = SubResource( 1 )
+region = Rect2( 170, 0, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = SubResource( 1 )
+region = Rect2( 255, 0, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = SubResource( 1 )
+region = Rect2( 340, 0, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = SubResource( 1 )
+region = Rect2( 425, 0, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = SubResource( 1 )
+region = Rect2( 510, 0, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=17]
+atlas = SubResource( 1 )
+region = Rect2( 595, 0, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=18]
+atlas = SubResource( 1 )
+region = Rect2( 0, 76, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=19]
+atlas = SubResource( 1 )
+region = Rect2( 85, 76, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=20]
+atlas = SubResource( 1 )
+region = Rect2( 170, 76, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=21]
+atlas = SubResource( 1 )
+region = Rect2( 255, 76, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = SubResource( 1 )
+region = Rect2( 340, 76, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=23]
+atlas = SubResource( 1 )
+region = Rect2( 425, 76, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=24]
+atlas = SubResource( 1 )
+region = Rect2( 510, 76, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=25]
+atlas = SubResource( 1 )
+region = Rect2( 595, 76, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=26]
+atlas = SubResource( 1 )
+region = Rect2( 0, 152, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=27]
+atlas = SubResource( 1 )
+region = Rect2( 85, 152, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=28]
+atlas = SubResource( 1 )
+region = Rect2( 170, 152, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=29]
+atlas = SubResource( 1 )
+region = Rect2( 255, 152, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=30]
+atlas = SubResource( 1 )
+region = Rect2( 340, 152, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=31]
+atlas = SubResource( 1 )
+region = Rect2( 425, 152, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=32]
+atlas = SubResource( 1 )
+region = Rect2( 510, 152, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=33]
+atlas = SubResource( 1 )
+region = Rect2( 595, 152, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=34]
+atlas = SubResource( 1 )
+region = Rect2( 0, 228, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=35]
+atlas = SubResource( 1 )
+region = Rect2( 85, 228, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=36]
+atlas = SubResource( 1 )
+region = Rect2( 170, 228, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=37]
+atlas = SubResource( 1 )
+region = Rect2( 255, 228, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=38]
+atlas = SubResource( 1 )
+region = Rect2( 340, 228, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=39]
+atlas = SubResource( 1 )
+region = Rect2( 425, 228, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=40]
+atlas = SubResource( 1 )
+region = Rect2( 510, 228, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=41]
+atlas = SubResource( 1 )
+region = Rect2( 85, 380, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=42]
+atlas = SubResource( 1 )
+region = Rect2( 170, 380, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=43]
+atlas = SubResource( 1 )
+region = Rect2( 255, 380, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=44]
+atlas = SubResource( 1 )
+region = Rect2( 340, 380, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=45]
+atlas = SubResource( 1 )
+region = Rect2( 425, 380, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=46]
+atlas = SubResource( 1 )
+region = Rect2( 510, 380, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=47]
+atlas = SubResource( 1 )
+region = Rect2( 595, 228, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=48]
+atlas = SubResource( 1 )
+region = Rect2( 0, 304, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=49]
+atlas = SubResource( 1 )
+region = Rect2( 85, 304, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=50]
+atlas = SubResource( 1 )
+region = Rect2( 170, 304, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=51]
+atlas = SubResource( 1 )
+region = Rect2( 255, 304, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=52]
+atlas = SubResource( 1 )
+region = Rect2( 340, 304, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=53]
+atlas = SubResource( 1 )
+region = Rect2( 425, 304, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=54]
+atlas = SubResource( 1 )
+region = Rect2( 510, 304, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=55]
+atlas = SubResource( 1 )
+region = Rect2( 595, 304, 85, 76 )
+
+[sub_resource type="AtlasTexture" id=56]
+atlas = SubResource( 1 )
+region = Rect2( 0, 380, 85, 76 )
+
+[sub_resource type="SpriteFrames" id=57]
+animations = [ {
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
+"loop": true,
+"name": "Acid_Hit",
+"speed": 17.0
+}, {
+"frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ],
+"loop": true,
+"name": "Bone_Hit",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 10 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 10 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 10 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ) ],
+"loop": true,
+"name": "Boom",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
+"loop": true,
+"name": "G_Boom",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ) ],
+"loop": true,
+"name": "G_Poof",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 10 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ) ],
+"loop": true,
+"name": "O_Boom",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 41 ), SubResource( 35 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 46 ) ],
+"loop": true,
+"name": "O_Poof",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 10 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ) ],
+"loop": true,
+"name": "P_Boom",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 35 ), SubResource( 47 ), SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 51 ) ],
+"loop": true,
+"name": "P_Poof",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 35 ), SubResource( 47 ), SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 51 ), SubResource( 35 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ), SubResource( 55 ), SubResource( 56 ), SubResource( 41 ), SubResource( 35 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 46 ) ],
+"loop": true,
+"name": "Poof",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 10 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ) ],
+"loop": true,
+"name": "R_Boom",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 35 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ), SubResource( 55 ), SubResource( 56 ) ],
+"loop": true,
+"name": "R_Poof",
+"speed": 10.0
+} ]
+
+[node name="EnemyDieFX" type="AnimatedSprite"]
+frames = SubResource( 57 )
+animation = "O_Poof"
+frame = 2
+playing = true
+script = ExtResource( 1 )
+__meta__ = {
+"_aseprite_wizard_config_": {
+"layer": "",
+"o_ex_p": "",
+"o_folder": "res://assets/enemies_sprite/all",
+"o_name": "",
+"only_visible": false,
+"op_exp": true,
+"source": "res://aseprite/enemies/Boom.aseprite"
+}
+}
+
+[connection signal="animation_finished" from="." to="." method="_on_Enemy_animation_finished"]

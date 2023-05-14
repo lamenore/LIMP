@@ -277,7 +277,7 @@ func create_hitbox(_attack, hbox_num, _x, _y):
 		new_hitbox.connect("hit_enemy", new_proj, "_on_Hitbox_hit_enemy")
 		new_hitbox.connect("lifetime_ended", new_proj, "_on_Hitbox_lifetime_ended")
 		new_proj.add_child(new_hitbox)
-		get_tree().current_scene.get_node("YSort").add_child(new_proj)
+		get_parent().add_child(new_proj)
 	else:	
 		var new_hitbox = pHitBox.instance()
 		new_hitbox.attack = attack

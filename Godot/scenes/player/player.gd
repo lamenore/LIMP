@@ -3,7 +3,7 @@ extends KinematicBody2D
 signal life_changed
 
 var entity_type = Globals.ET.PLAYER
-export var health := 6
+export var health := 6.0
 
 var pHitBox = preload("res://scenes/building blocks/Hitbox.tscn")
 var pProj = preload("res://scenes/building blocks/Projectile.tscn")
@@ -22,7 +22,7 @@ var state_timer:int = 0
 var hittable_hitpause_mult:float = 1
 
 var can_move := true
-export var speed := 200.0
+export var speed := 150.0
 export var can_accelerate := true
 export var acceleration := 35.0
 export var ground_friction := 35.0
@@ -83,7 +83,7 @@ var idle_anim_speed := .1
 var run_anim_speed := .2
 
 func _ready():
-	connect("life_changed", get_tree().current_scene.get_node("UI/Life"), "_on_Player_life_changed")
+	connect("life_changed", get_tree().current_scene.get_child(0).get_node("UI/Life"), "_on_Player_life_changed")
 	emit_signal("life_changed", health)
 
 func _physics_process(delta: float) -> void:
@@ -177,9 +177,9 @@ func set_state(new_state: int):
 		PS.DODGE:
 			invincible = true
 			if dir_input != Vector2.ZERO:
-				velocity = dir_input*400.0
+				velocity = dir_input*300.0
 			else:
-				velocity = dir_facing*400.0
+				velocity = dir_facing*300.0
 		PS.DEAD:
 			pass
 		PS.ATTACK:
@@ -398,7 +398,7 @@ func create_hitbox(_attack, hbox_num, _x, _y):
 		new_hitbox.connect("hit_enemy", new_proj, "_on_Hitbox_hit_enemy")
 		new_hitbox.connect("lifetime_ended", new_proj, "_on_Hitbox_lifetime_ended")
 		new_proj.add_child(new_hitbox)
-		get_tree().current_scene.get_node("YSort").add_child(new_proj)
+		get_tree().current_scene.get_node("Playground/YSort").add_child(new_proj)
 	else:	
 		var new_hitbox = pHitBox.instance()
 		new_hitbox.attack = attack
@@ -508,11 +508,13 @@ func _on_HurtboxComponent_area_entered(area):
 func take_hit(area:Area2D):
 	if area.is_in_group("hitbox") and !invincible:
 		health_component.take_damage(area.damage)
-		var dir = area.parent_id.dir_facing.rotated(area.angle).normalized()
+		var dir = Vector2.ZERO
+		if area.parent_id:
+			area.parent_id.enemy_hit(self, area.type)
+			dir = area.parent_id.dir_facing.rotated(area.angle).normalized()
 		velocity = dir*area.knockback
 		hitstun_time = area.hitstun
 		set_state(PS.HIT)
-		area.parent_id.enemy_hit(self, area.type)
 		$Blinker.start_blinking(self, invinc_time_after_hit)
 		got_hit_invincible_counter = invinc_time_after_hit
 	elif(area.is_in_group("collectable")):
@@ -522,7 +524,8 @@ func take_hit(area:Area2D):
 
 func _on_HealthComponent_hp_changed(new_hp):
 	var speed_modifier = clamp(new_hp/health, 0, 1)
-	print(speed_modifier)
+
+	set_window_value(AT.SWING, 2, AG.WINDOW_SPEED, 50 + floor(speed_modifier*150))
 	set_window_value(AT.SWING, 1, AG.WINDOW_LENGTH, max(floor(speed_modifier*15) , 7))
 	set_window_value(AT.SWING, 3, AG.WINDOW_LENGTH, 10 + floor(speed_modifier*5))
 	set_hitbox_value(AT.PROJ, 1, HG.DAMAGE, 1 + 3*(1 - speed_modifier) )

@@ -18,7 +18,7 @@ func _physics_process(delta):
 func drop_heart_on_ground():
 	var heart = preload("res://scenes/building blocks/Heart.tscn").instance()
 	heart.global_position = global_position
-	var cur_scene := get_tree().current_scene
+	var cur_scene := get_tree().current_scene.get_child(0)
 	var ysort = cur_scene.get_node("YSort")
 	ysort.call_deferred("add_child", heart)
 	queue_free()

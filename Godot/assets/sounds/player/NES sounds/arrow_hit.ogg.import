@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/arrow_hit.ogg-0b3238ebf0f23f4f9a768c0f18573dbf.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/player/NES sounds/arrow_hit.ogg"
+dest_files=[ "res://.import/arrow_hit.ogg-0b3238ebf0f23f4f9a768c0f18573dbf.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

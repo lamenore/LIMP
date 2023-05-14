@@ -13,11 +13,11 @@ func _ready():
 	health = 2
 	
 	lunge_dist = 50.0
-	detection_dist = 300.0
+	detection_dist = 240.0
 	idle_anim_speed = .1
 	run_anim_speed = .2
 	
-	speed = 100.0
+	speed = 80.0
 	acceleration = 35.0
 	friction = 25.0
 

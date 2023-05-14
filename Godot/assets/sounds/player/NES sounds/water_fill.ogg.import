@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/water_fill.ogg-7fe80ad9c68df97ebb863a63c5486c6e.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/player/NES sounds/water_fill.ogg"
+dest_files=[ "res://.import/water_fill.ogg-7fe80ad9c68df97ebb863a63c5486c6e.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

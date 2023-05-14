@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/plant_growth.ogg-b09e9d97ce913691e83650439075fdd0.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/player/NES sounds/plant_growth.ogg"
+dest_files=[ "res://.import/plant_growth.ogg-b09e9d97ce913691e83650439075fdd0.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

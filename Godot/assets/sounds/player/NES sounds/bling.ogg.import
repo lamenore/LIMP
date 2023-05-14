@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/bling.ogg-d6e1a87ff39e0e4a1cc496c1b92efa70.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/player/NES sounds/bling.ogg"
+dest_files=[ "res://.import/bling.ogg-d6e1a87ff39e0e4a1cc496c1b92efa70.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

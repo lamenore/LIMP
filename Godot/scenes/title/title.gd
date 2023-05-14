@@ -9,8 +9,7 @@ func _ready() -> void:
 
 
 func _on_Start_pressed() -> void:
-	pass # Replace with function body.
-
+	emit_signal("change_scene", "res://scenes/Playground.tscn")
 
 func _on_Load_pressed() -> void:
 	SaveLoad.show_save_load(false)

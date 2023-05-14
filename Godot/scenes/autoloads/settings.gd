@@ -9,8 +9,8 @@ var config: ConfigFile
 
 
 func _ready() -> void:
-	$PopupPanel/VBoxContainer/HBoxContainer4.visible = not OS.get_name() == "HTML5"
-	$PopupPanel/VBoxContainer/HBoxContainer6.visible = not OS.get_name() == "HTML5"
+	$PopupPanel/VBoxContainer/HBoxContainer4.visible = (not OS.get_name() == "HTML5")
+	$PopupPanel/VBoxContainer/HBoxContainer6.visible = (not OS.get_name() == "HTML5")
 	config = ConfigFile.new()
 	if config.load(PATH) == OK:
 		var fullscreen = config.get_value("display", "fullscreen", false)
@@ -53,6 +53,7 @@ func _ready() -> void:
 
 
 func show_settings(can_quit := true) -> void:
+	print("Settings")
 	get_tree().paused = true
 	$PopupPanel/VBoxContainer/Quit.visible = can_quit
 	$PopupPanel.popup_centered()
@@ -109,3 +110,4 @@ func _on_VSync_toggled(button_pressed: bool) -> void:
 
 func _on_Quit_pressed() -> void:
 	emit_signal("change_scene", "res://scenes/title/title.tscn")
+	

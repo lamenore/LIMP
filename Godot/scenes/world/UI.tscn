@@ -1,0 +1,58 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/player_sprites/heart.png" type="Texture" id=1]
+[ext_resource path="res://scenes/Life.gd" type="Script" id=2]
+[ext_resource path="res://resources/main_theme.tres" type="Theme" id=3]
+[ext_resource path="res://scenes/world/world_ui.gd" type="Script" id=4]
+
+[node name="UI_Layer" type="CanvasLayer"]
+script = ExtResource( 4 )
+
+[node name="Life" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Hearts" type="TextureRect" parent="Life"]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 29.0
+margin_bottom = 28.0
+rect_scale = Vector2( 4, 4 )
+size_flags_horizontal = 0
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="UI" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Buttons" type="HBoxContainer" parent="UI"]
+margin_right = 151.0
+margin_bottom = 20.0
+
+[node name="Settings" type="Button" parent="UI/Buttons"]
+margin_right = 63.0
+margin_bottom = 20.0
+text = "Settings"
+
+[node name="SaveLoad" type="Button" parent="UI/Buttons"]
+margin_left = 67.0
+margin_right = 151.0
+margin_bottom = 20.0
+text = "Save / Load"
+
+[connection signal="pressed" from="UI/Buttons/Settings" to="." method="_on_Settings_pressed"]
+[connection signal="pressed" from="UI/Buttons/SaveLoad" to="." method="_on_SaveLoad_pressed"]

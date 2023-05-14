@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/achieved.ogg-bcadc130aa11769f350c0f4342a3ccd7.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/player/NES sounds/achieved.ogg"
+dest_files=[ "res://.import/achieved.ogg-bcadc130aa11769f350c0f4342a3ccd7.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
