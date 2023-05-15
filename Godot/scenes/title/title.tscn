@@ -1,7 +1,39 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scenes/title/title.gd" type="Script" id=1]
 [ext_resource path="res://resources/main_theme.tres" type="Theme" id=2]
+[ext_resource path="res://aseprite/Setting_clicked.png" type="Texture" id=3]
+[ext_resource path="res://aseprite/Setting_normal.png" type="Texture" id=4]
+[ext_resource path="res://aseprite/Start_normal.png" type="Texture" id=5]
+[ext_resource path="res://assets/Title-Screen2.png" type="Texture" id=6]
+[ext_resource path="res://aseprite/Start_clicked.png" type="Texture" id=7]
+[ext_resource path="res://aseprite/Quit_clicked.png" type="Texture" id=8]
+[ext_resource path="res://aseprite/Quit_normal.png" type="Texture" id=9]
+
+[sub_resource type="StyleBoxTexture" id=3]
+texture = ExtResource( 5 )
+region_rect = Rect2( 0, 0, 44, 18 )
+
+[sub_resource type="StyleBoxTexture" id=4]
+texture = ExtResource( 7 )
+region_rect = Rect2( 0, 0, 45, 18 )
+margin_right = 0.665999
+
+[sub_resource type="StyleBoxTexture" id=2]
+texture = ExtResource( 4 )
+region_rect = Rect2( 0, 0, 44, 18 )
+
+[sub_resource type="StyleBoxTexture" id=1]
+texture = ExtResource( 3 )
+region_rect = Rect2( 0, 0, 44, 18 )
+
+[sub_resource type="StyleBoxTexture" id=5]
+texture = ExtResource( 9 )
+region_rect = Rect2( 0, 0, 44, 18 )
+
+[sub_resource type="StyleBoxTexture" id=6]
+texture = ExtResource( 8 )
+region_rect = Rect2( 0, 0, 44, 18 )
 
 [node name="Title" type="Control"]
 anchor_right = 1.0
@@ -12,61 +44,63 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Control" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-alignment = 1
-__meta__ = {
-"_edit_lock_": true
-}
 
-[node name="Jam" type="Label" parent="VBoxContainer"]
-margin_top = 236.0
-margin_right = 1024.0
-margin_bottom = 250.0
-text = "Name of Jam"
-align = 1
+[node name="ColorRect" type="ColorRect" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
 
-[node name="Name" type="Label" parent="VBoxContainer"]
-margin_top = 254.0
-margin_right = 1024.0
-margin_bottom = 268.0
-text = "Name of Game"
-align = 1
+[node name="TextureRect" type="TextureRect" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+texture = ExtResource( 6 )
+stretch_mode = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 247.0
+margin_top = -87.0
+margin_right = 391.0
+margin_bottom = 109.0
 
 [node name="Start" type="Button" parent="VBoxContainer"]
-margin_left = 491.0
-margin_top = 272.0
-margin_right = 532.0
-margin_bottom = 292.0
-size_flags_horizontal = 4
-text = "Start"
+margin_right = 144.0
+margin_bottom = 62.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 3 )
+custom_styles/normal = SubResource( 3 )
 
 [node name="Settings" type="Button" parent="VBoxContainer"]
-margin_left = 480.0
-margin_top = 296.0
-margin_right = 543.0
-margin_bottom = 316.0
-size_flags_horizontal = 4
-text = "Settings"
-
-[node name="Credits" type="Button" parent="VBoxContainer"]
-margin_left = 483.0
-margin_top = 320.0
-margin_right = 540.0
-margin_bottom = 340.0
-size_flags_horizontal = 4
-text = "Credits"
+margin_top = 66.0
+margin_right = 144.0
+margin_bottom = 129.0
+rect_min_size = Vector2( 44, 18 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 1 )
+custom_styles/focus = SubResource( 2 )
+custom_styles/normal = SubResource( 2 )
 
 [node name="Quit" type="Button" parent="VBoxContainer"]
-margin_left = 492.0
-margin_top = 344.0
-margin_right = 532.0
-margin_bottom = 364.0
-size_flags_horizontal = 4
-text = "Quit"
+margin_top = 133.0
+margin_right = 144.0
+margin_bottom = 196.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 5 )
+custom_styles/normal = SubResource( 5 )
 
 [connection signal="pressed" from="VBoxContainer/Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="VBoxContainer/Settings" to="." method="_on_Settings_pressed"]
-[connection signal="pressed" from="VBoxContainer/Credits" to="." method="_on_Credits_pressed"]
 [connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_Quit_pressed"]

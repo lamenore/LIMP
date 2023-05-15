@@ -14,10 +14,15 @@ func _ready():
 	match entity_type:
 		Globals.ET.SKELETON:
 			$AnimatedSprite.animation = "Bone"
+		Globals.ET.EVIL_OAK:
+			$AnimatedSprite.animation = "Acorn"
+			$AnimatedSprite.speed_scale = 2
 	velocity = dir_throw*speed
-
+	
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	
 	velocity = move_and_slide(velocity)
 
 func drop_heart_on_ground():

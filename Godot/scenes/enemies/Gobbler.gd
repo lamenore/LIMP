@@ -27,6 +27,8 @@ func _ready():
 	noise.octaves = 1
 	noise.period = 128.0
 	
+	$HealthComponent.set_health()
+	
 func move():
 	velocity = dir_input * speed
 

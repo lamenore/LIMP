@@ -10,6 +10,9 @@ extends AudioStreamPlayer
 func _ready():
 	playing = true
 
+func change_music(music_name: String):
+	stream = load(music_name)
+	play()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

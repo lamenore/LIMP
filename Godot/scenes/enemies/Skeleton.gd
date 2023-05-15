@@ -10,7 +10,7 @@ func _ready():
 	
 	attack_data = EnemiesVariables.skeleton_attack_data
 	
-	health = 4
+	health = 3
 	
 	lunge_dist = 100.0
 	detection_dist = 200.0

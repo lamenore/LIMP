@@ -6,7 +6,7 @@ signal got_hit
 var player_id:KinematicBody2D
 
 var entity_type:int
-export var health := 2
+var health:int
 
 var pHitBox = preload("res://scenes/building blocks/Hitbox.tscn")
 var pProj = preload("res://scenes/building blocks/EnemyProjectile.tscn")
@@ -31,6 +31,7 @@ export var speed := 100.0
 export var can_accelerate := true
 export var acceleration := 35.0
 export var friction := 25.0
+var has_armor := false
 
 var attack:int = 0
 var window:int = 0
@@ -137,7 +138,7 @@ func set_state(new_state: int):
 	
 	frame_0_set_state(state)
 	
-	if(prev_state == PS.ATTACK):
+	if(prev_state == PS.ATTACK and entity_type != Globals.ET.EVIL_OAK):
 		for hbox in hitbox_parent.get_children():
 			hbox.queue_free()
 
@@ -257,7 +258,7 @@ func create_hitbox(_attack, hbox_num, _x, _y):
 	var hbox_type = get_hitbox_value(_attack, hbox_num, HG.HITBOX_TYPE)
 	if hbox_type == 2:
 		var new_hitbox = pHitBox.instance()
-		new_hitbox.attack = attack
+		new_hitbox.attack = _attack
 		new_hitbox.hbox_num = hbox_num
 		new_hitbox.parent_id = self
 		new_hitbox.collision_layer = 64
@@ -342,7 +343,8 @@ func _on_HurtboxComponent_area_entered(area: Hitbox):
 
 func take_hit(area: Hitbox):
 	if area.is_in_group("hitbox") and state != PS.DEAD:
-		set_state(PS.HIT)
+		if(!has_armor):
+			set_state(PS.HIT)
 		$HealthComponent.take_damage(area.damage)
 		var angle = area.parent_id.dir_facing.rotated(area.angle).angle()
 		velocity = Vector2(cos(angle), sin(angle))*area.knockback*knockback_adj

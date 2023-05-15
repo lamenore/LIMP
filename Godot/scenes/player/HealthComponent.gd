@@ -15,6 +15,12 @@ func _ready():
 		MAX_HEALTH = parent.health
 		self.health = MAX_HEALTH
 
+func set_health():
+	var parent := get_parent()
+	if parent:
+		MAX_HEALTH = parent.health
+		self.health = MAX_HEALTH
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass

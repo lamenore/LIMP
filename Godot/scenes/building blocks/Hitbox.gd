@@ -51,6 +51,7 @@ func declare():
 # Called every frame.
 func _physics_process(delta):
 	if(hitbox_timer >= lifetime):
+		print("emmited")
 		emit_signal("lifetime_ended")
 		queue_free()
 	hitbox_timer += 1

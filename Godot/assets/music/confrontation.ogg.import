@@ -11,5 +11,5 @@ dest_files=[ "res://.import/confrontation.ogg-e151e194c83a0adaed36d7813d8b5414.o
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0

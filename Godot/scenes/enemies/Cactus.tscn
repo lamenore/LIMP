@@ -1,9 +1,10 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://scenes/player/HurtboxComponent.gd" type="Script" id=1]
 [ext_resource path="res://scenes/player/HealthComponent.gd" type="Script" id=2]
 [ext_resource path="res://scenes/player/HitboxParent.gd" type="Script" id=3]
 [ext_resource path="res://scenes/enemies/Cactus.gd" type="Script" id=4]
+[ext_resource path="res://assets/sounds/enemies/slime/slime_lunge1.ogg" type="AudioStream" id=5]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 4.0
@@ -162,6 +163,11 @@ __meta__ = {
 "source": "res://aseprite/enemies/exploding_cactus.aseprite"
 }
 }
+
+[node name="LungePlayer" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( 0, -0.046 )
+stream = ExtResource( 5 )
+volume_db = -4.37
 
 [connection signal="zero_health" from="HealthComponent" to="." method="_on_HealthComponent_zero_health"]
 [connection signal="area_entered" from="HurtboxComponent" to="." method="_on_HurtboxComponent_area_entered"]

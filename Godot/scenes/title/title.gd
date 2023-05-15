@@ -6,7 +6,8 @@ signal change_scene(to)
 
 func _ready() -> void:
 	$VBoxContainer/Quit.visible = not OS.get_name() == "HTML5"
-
+	var global_player = get_node("/root/FightMusic")
+	global_player.change_music("res://assets/music/title_screen.ogg")
 
 func _on_Start_pressed() -> void:
 	emit_signal("change_scene", "res://scenes/Playground.tscn")

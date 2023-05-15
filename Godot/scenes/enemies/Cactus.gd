@@ -29,6 +29,9 @@ func _ready():
 	acceleration = 35.0
 	friction = 25.0
 
+	$HealthComponent.set_health()
+	
+
 func ai_update():
 	var scene_tree := get_tree()
 	

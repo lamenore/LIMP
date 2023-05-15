@@ -3,7 +3,7 @@ extends Enemy
 func _ready():
 	entity_type = Globals.ET.PUMPKIN
 	
-	health = 6 
+	health = 5
 
 	PS = Globals.P_PS
 	AT = Globals.P_AT
@@ -21,7 +21,9 @@ func _ready():
 	speed = 100.0
 	acceleration = 35.0
 	friction = 25.0
-
+	
+	$HealthComponent.set_health()
+	
 func ai_update():
 	var scene_tree := get_tree()
 	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=154 format=2]
+[gd_scene load_steps=155 format=2]
 
 [ext_resource path="res://scenes/player/player.gd" type="Script" id=1]
 [ext_resource path="res://scenes/player/HitboxParent.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://assets/sounds/player/chargecomplete.ogg" type="AudioStream" id=9]
 [ext_resource path="res://assets/sounds/player/chargedraft.ogg" type="AudioStream" id=10]
 [ext_resource path="res://scenes/building blocks/Blinker.tscn" type="PackedScene" id=11]
+[ext_resource path="res://assets/sounds/player/hurt.ogg" type="AudioStream" id=12]
 
 [sub_resource type="CapsuleShape2D" id=37]
 radius = 4.0
@@ -804,6 +805,12 @@ __meta__ = {
 
 [node name="SlashSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
+volume_db = -1.748
+attenuation = 2.21913
+bus = "Sound"
+
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 12 )
 volume_db = -1.748
 attenuation = 2.21913
 bus = "Sound"

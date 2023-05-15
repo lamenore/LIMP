@@ -11,5 +11,5 @@ dest_files=[ "res://.import/vae_dungeon.ogg-11dd378ba1f14a840f1e9cce223a1959.ogg
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0

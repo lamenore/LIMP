@@ -1,10 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://assets/music/vae_dungeon.ogg" type="AudioStream" id=1]
 [ext_resource path="res://scenes/FightMusic.gd" type="Script" id=2]
 
 [node name="FightMusic" type="AudioStreamPlayer"]
-stream = ExtResource( 1 )
 volume_db = -6.637
 bus = "Music"
 script = ExtResource( 2 )

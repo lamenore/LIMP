@@ -172,6 +172,8 @@ func set_state(new_state: int):
 			pass
 		PS.IDLE:
 			pass
+		PS.HIT:
+			$HurtSound.play()
 		PS.FURY:
 			pass
 		PS.DODGE:
@@ -268,6 +270,8 @@ func state_update():
 		if(state_timer >= hitstun_time):
 			set_state(PS.IDLE)
 	
+	if(state == PS.DEAD):
+		get_tree().current_scene.current_scene.emit_signal("change_scene", "res://scenes/title/YouDied.tscn")
 	
 	if attack_down:
 		if(charge_counter < charge_time):
@@ -313,6 +317,8 @@ func attack_update():
 		AT.CHARGE:
 			if(window == 1 and window_timer == get_window_value(attack, window, AG.WINDOW_LENGTH)):
 				slash_sound.play()
+			if(window == 3 and state_timer >= 5):
+				can_dodge = true
 		AT.SWING:
 			if state_timer <= 12:
 				turn_around()
@@ -514,7 +520,8 @@ func take_hit(area:Area2D):
 			dir = area.parent_id.dir_facing.rotated(area.angle).normalized()
 		velocity = dir*area.knockback
 		hitstun_time = area.hitstun
-		set_state(PS.HIT)
+		if(state != PS.DEAD):
+			set_state(PS.HIT)
 		$Blinker.start_blinking(self, invinc_time_after_hit)
 		got_hit_invincible_counter = invinc_time_after_hit
 	elif(area.is_in_group("collectable")):
@@ -533,4 +540,6 @@ func _on_HealthComponent_hp_changed(new_hp):
 
 
 func _on_HealthComponent_zero_health():
-	set_state(PS.DEAD)
+	if(health_component.health <= -1):
+		print("DEADEA")
+		set_state(PS.DEAD)
